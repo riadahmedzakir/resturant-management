@@ -1,0 +1,35 @@
+# compiled output
+smunch-backend/dist
+smunch-backend/node_modules
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+
+# Tests
+smunch-backend/coverage
+smunch-backend/.nyc_output
+
+# IDEs and editors
+smunch-backend/.idea
+smunch-backend/.project
+smunch-backend/.classpath
+smunch-backend/.c9/
+smunch-backend/*.launch
+smunch-backend/.settings/
+smunch-backend/*.sublime-workspace
+
+# IDE - VSCode
+smunch-backend/.vscode/*
+smunch-backend/!.vscode/settings.json
+smunch-backend/!.vscode/tasks.json
+smunch-backend/!.vscode/launch.json
+smunch-backend/!.vscode/extensions.json
