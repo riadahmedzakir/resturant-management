@@ -33,3 +33,5 @@ smunch-backend/!.vscode/settings.json
 smunch-backend/!.vscode/tasks.json
 smunch-backend/!.vscode/launch.json
 smunch-backend/!.vscode/extensions.json
+
+task.pdf
