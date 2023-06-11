@@ -8,7 +8,7 @@ interface IGenericRepositoryService {
   ) => Promise<T[]>;
 
   getOne: <T>(collectionName: string) => T;
-  insert: <T>(collectionName: string) => T;
+  insertOne: <T>(collectionName: string, data: T) => Promise<T>;
   update: <T>(collectionName: string) => T;
   delete: <T>(collectionName: string) => T;
 }

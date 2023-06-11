@@ -1,5 +1,5 @@
 class Review {
-  Id: string;
+  _id: string;
   UserId: string;
   ReviewEntityId: string;
   ReviewEntityName: string;

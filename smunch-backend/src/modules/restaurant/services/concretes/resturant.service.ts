@@ -17,7 +17,7 @@ export class ResturantService implements IResturantService {
     const resturants = await this._genericRepositoryService.getMany<Resturant>(
       'Resturants',
       '{}',
-      `{ ${query.SortedBy}: ${query.Order} }`,
+      `{ "${query.SortedBy}": ${query.Order} }`,
       query.Skip,
       query.Limit,
     );

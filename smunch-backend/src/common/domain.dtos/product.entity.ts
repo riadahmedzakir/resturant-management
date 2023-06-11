@@ -1,5 +1,5 @@
 class Product {
-  Id: string;
+  _id: string;
   Name: string;
   Description: string;
   ResturantId: string;

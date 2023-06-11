@@ -13,6 +13,7 @@ import {
   UserReviewListQuery,
 } from '../../../../common/request-response/request/review/review.request.dto';
 import { UserReviewResponse } from '../../../../common/request-response/response/review/user-review.response.dto';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class ReviewService implements IReviewService {
@@ -91,11 +92,47 @@ export class ReviewService implements IReviewService {
     return response;
   }
 
-  submitResturantReview: (
-    query: SubmitReviewCommand,
-  ) => Promise<CommonCommandResponse<Review>>;
+  async submitResturantReview(
+    command: SubmitReviewCommand,
+  ): Promise<CommonCommandResponse<Review>> {
+    const review = new Review();
+    review._id = uuidv4();
+    review.UserId = command.UserId;
+    review.ReviewEntityId = command.ReviewEntityId;
+    review.ReviewEntityName = 'Resturant';
+    review.Rating = command.Rating;
+    review.Comment = command.Comment;
 
-  submitProductReview: (
-    query: SubmitReviewCommand,
-  ) => Promise<CommonCommandResponse<Review>>;
+    const reviewResponse =
+      await this._genericRepositoryService.insertOne<Review>('Review', review);
+
+    const response = new CommonCommandResponse<Review>();
+    response.IsScuessful = true;
+    response.SuccessResponse = reviewResponse;
+    response.StatusCode = HttpStatus.OK;
+
+    return response;
+  }
+
+  async submitProductReview(
+    command: SubmitReviewCommand,
+  ): Promise<CommonCommandResponse<Review>> {
+    const review = new Review();
+    review._id = uuidv4();
+    review.UserId = command.UserId;
+    review.ReviewEntityId = command.ReviewEntityId;
+    review.ReviewEntityName = 'Product';
+    review.Rating = command.Rating;
+    review.Comment = command.Comment;
+
+    const reviewResponse =
+      await this._genericRepositoryService.insertOne<Review>('Review', review);
+
+    const response = new CommonCommandResponse<Review>();
+    response.IsScuessful = true;
+    response.SuccessResponse = reviewResponse;
+    response.StatusCode = HttpStatus.OK;
+
+    return response;
+  }
 }

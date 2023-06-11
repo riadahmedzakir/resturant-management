@@ -24,9 +24,6 @@ class SubmitReviewCommand {
   ReviewEntityId: string;
 
   @IsNotEmpty()
-  ReviewEntityName: string;
-
-  @IsNotEmpty()
   Rating: number;
 
   @IsString()
