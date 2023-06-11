@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { GenericRepository } from './services/contracts/repository.service';
+import { GenericRepositoryService } from './services/contracts/repository.service';
 
 @Module({
   imports: [],
   controllers: [],
-  providers: [GenericRepository],
+  providers: [GenericRepositoryService],
   exports: [DatabaseModule],
 })
 export class DatabaseModule {}

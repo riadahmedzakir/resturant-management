@@ -1,12 +1,12 @@
-class CommonQueryResponse<Type> {
+class CommonQueryResponse<T> {
   IsScuessful: boolean;
-  SuccessResponse: Type;
+  SuccessResponse: T;
   StatusCode: number;
 }
 
-class CommonCommandResponse<Type> {
+class CommonCommandResponse<T> {
   IsScuessful: boolean;
-  SuccessResponse: Type;
+  SuccessResponse: T;
   StatusCode: number;
   Erros: string[];
 }

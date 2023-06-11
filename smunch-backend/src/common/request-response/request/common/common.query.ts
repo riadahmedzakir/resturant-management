@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-inferrable-types */
+
 import {
   IsString,
   IsNumber,
@@ -6,7 +8,7 @@ import {
   ValidatorConstraintInterface,
 } from 'class-validator';
 
-@ValidatorConstraint({ name: 'isPhoneNumber', async: false })
+@ValidatorConstraint({ name: 'IsValidQueryOrder', async: false })
 class ValidOrderConstraint implements ValidatorConstraintInterface {
   validate(value: number) {
     if (!value) {
@@ -22,10 +24,17 @@ class ValidOrderConstraint implements ValidatorConstraintInterface {
 
 class QueryBase {
   @IsString()
-  SortedBy: string;
+  SortedBy = '_id';
+
   @IsNumber()
   @Validate(ValidOrderConstraint)
-  Order: number;
+  Order: number = 1;
+
+  @IsNumber()
+  Skip = 0;
+
+  @IsNumber()
+  Limit = 10;
 }
 
 export { QueryBase };

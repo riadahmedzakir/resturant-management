@@ -1,10 +1,31 @@
 import { Injectable } from '@nestjs/common';
-import { IGenericRepository } from '../concretes/database.service.interface';
+import { IGenericRepositoryService } from '../concretes/database.service.interface';
+import { MongoClient } from './database.mongodb.service';
 
 @Injectable()
-export class GenericRepository implements IGenericRepository {
-  get: <Type>() => Type;
-  insert: <Type>() => Type;
-  update: <Type>() => Type;
-  delete: <Type>() => Type;
+export class GenericRepositoryService implements IGenericRepositoryService {
+  getOne: <T>(collectionName: string) => T;
+  insert: <T>(collectionName: string) => T;
+  update: <T>(collectionName: string) => T;
+  delete: <T>(collectionName: string) => T;
+
+  async getMany<T>(
+    collectionName: string,
+    query = `{}`,
+    sort = `{ _id : 1 }`,
+    skip = 0,
+    limit = 10,
+  ): Promise<T[]> {
+    const db = await MongoClient.getDb();
+
+    const response = await db
+      .collection(collectionName)
+      .find(JSON.parse(query))
+      .sort(sort)
+      .skip(skip)
+      .limit(limit)
+      .toArray();
+
+    return response;
+  }
 }
