@@ -5,14 +5,14 @@ import {
 } from '../../../../common/request-response/response/common/common.response';
 import { GenericRepositoryService } from '../../../database/services/contracts/repository.service';
 import { IReviewService } from '../contracts/review.service.interface';
-import { Review } from './../../../../common/domain.dtos/review.model';
+import { Review } from '../../../../common/domain.dtos/review.entity';
 import {
   ProductReviewListQuery,
   ResturantReviewListQuery,
   SubmitReviewCommand,
   UserReviewListQuery,
-} from './../../../../common/request-response/request/review/review.request';
-import { UserReviewResponse } from './../../../../common/request-response/response/review/user-review.response';
+} from '../../../../common/request-response/request/review/review.request.dto';
+import { UserReviewResponse } from '../../../../common/request-response/response/review/user-review.response.dto';
 
 @Injectable()
 export class ReviewService implements IReviewService {

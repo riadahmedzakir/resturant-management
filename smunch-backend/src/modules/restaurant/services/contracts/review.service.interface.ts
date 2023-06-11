@@ -1,4 +1,4 @@
-import { Review } from './../../../../common/domain.dtos/review.model';
+import { Review } from '../../../../common/domain.dtos/review.entity';
 import {
   CommonCommandResponse,
   CommonQueryResponse,
@@ -8,8 +8,8 @@ import {
   ResturantReviewListQuery,
   SubmitReviewCommand,
   UserReviewListQuery,
-} from './../../../../common/request-response/request/review/review.request';
-import { UserReviewResponse } from './../../../../common/request-response/response/review/user-review.response';
+} from '../../../../common/request-response/request/review/review.request.dto';
+import { UserReviewResponse } from '../../../../common/request-response/response/review/user-review.response.dto';
 
 interface IReviewService {
   getAllReviewByResturantId: (

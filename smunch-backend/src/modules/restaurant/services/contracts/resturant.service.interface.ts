@@ -1,5 +1,5 @@
-import { ResturantListQuery } from '../../../../common/request-response/request/resturant/resturant.request';
-import { Resturant } from '../../../../common/domain.dtos/resturant.model';
+import { ResturantListQuery } from '../../../../common/request-response/request/resturant/resturant.request.dto';
+import { Resturant } from '../../../../common/domain.dtos/resturant.entity';
 import { CommonQueryResponse } from '../../../../common/request-response/response/common/common.response';
 
 interface IResturantService {

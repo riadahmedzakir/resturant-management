@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import { QueryBase } from '../common/common.query';
+import { QueryBase } from '../common/common.query.dto';
 
 class ResturantReviewListQuery extends QueryBase {
   @IsNotEmpty()

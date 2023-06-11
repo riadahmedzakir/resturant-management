@@ -1,7 +1,9 @@
 import { Controller, Get } from '@nestjs/common';
 import { ManagementService } from '../services/contracts/root.service';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('Management')
+@ApiTags('Management')
 export class ManagementController {
   constructor(private readonly managementService: ManagementService) {}
 

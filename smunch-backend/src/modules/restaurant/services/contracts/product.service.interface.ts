@@ -1,6 +1,6 @@
-import { Product } from './../../../../common/domain.dtos/product.model';
+import { Product } from '../../../../common/domain.dtos/product.entity';
 import { CommonQueryResponse } from '../../../../common/request-response/response/common/common.response';
-import { ProductListQuery } from './../../../../common/request-response/request/product/product.request';
+import { ProductListQuery } from '../../../../common/request-response/request/product/product.request.dto';
 
 interface IProductService {
   getAllProducts: (

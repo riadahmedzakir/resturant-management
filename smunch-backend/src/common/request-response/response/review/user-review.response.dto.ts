@@ -1,4 +1,4 @@
-import { Review } from './../../../../common/domain.dtos/review.model';
+import { Review } from '../../../domain.dtos/review.entity';
 
 class UserReviewResponse {
   ResturantReviews: Review[];

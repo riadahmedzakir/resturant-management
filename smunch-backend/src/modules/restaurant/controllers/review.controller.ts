@@ -4,20 +4,26 @@ import {
   CommonQueryResponse,
 } from '../../../common/request-response/response/common/common.response';
 import { ReviewService } from '../services/concretes/review.service';
-import { Review } from './../../../common/domain.dtos/review.model';
+import { Review } from '../../../common/domain.dtos/review.entity';
 import {
   ProductReviewListQuery,
   ResturantReviewListQuery,
   SubmitReviewCommand,
   UserReviewListQuery,
-} from './../../../common/request-response/request/review/review.request';
-import { UserReviewResponse } from './../../../common/request-response/response/review/user-review.response';
+} from '../../../common/request-response/request/review/review.request.dto';
+import { UserReviewResponse } from '../../../common/request-response/response/review/user-review.response.dto';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('Review')
+@ApiTags('Review')
 export class ReviewController {
   constructor(private readonly _reviewService: ReviewService) {}
 
   @Get('list/resturant-review')
+  @ApiOkResponse({
+    description: 'Success',
+    type: Review,
+  })
   async getResturantReviewByResturantId(
     @Query() query: ResturantReviewListQuery,
   ): Promise<CommonQueryResponse<Review[]>> {
@@ -25,6 +31,10 @@ export class ReviewController {
   }
 
   @Get('list/product-review')
+  @ApiOkResponse({
+    description: 'Success',
+    type: Review,
+  })
   async getProductReviewByProductId(
     @Query() query: ProductReviewListQuery,
   ): Promise<CommonQueryResponse<Review[]>> {
@@ -32,6 +42,10 @@ export class ReviewController {
   }
 
   @Get('list/history/user-review')
+  @ApiOkResponse({
+    description: 'Success',
+    type: UserReviewResponse,
+  })
   async getUserReviewHistoryByUserId(
     @Query() query: UserReviewListQuery,
   ): Promise<CommonQueryResponse<UserReviewResponse>> {
@@ -39,6 +53,10 @@ export class ReviewController {
   }
 
   @Post('ReviewResturant')
+  @ApiOkResponse({
+    description: 'Success',
+    type: Review,
+  })
   async reviewResturant(
     @Body() command: SubmitReviewCommand,
   ): Promise<CommonCommandResponse<Review>> {
@@ -46,6 +64,10 @@ export class ReviewController {
   }
 
   @Post('ReviewProduct')
+  @ApiOkResponse({
+    description: 'Success',
+    type: Review,
+  })
   async reviewProduct(
     @Body() command: SubmitReviewCommand,
   ): Promise<CommonCommandResponse<Review>> {

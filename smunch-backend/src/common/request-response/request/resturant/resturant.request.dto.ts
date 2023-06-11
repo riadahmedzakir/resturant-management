@@ -1,4 +1,4 @@
-import { QueryBase } from '../common/common.query';
+import { QueryBase } from '../common/common.query.dto';
 
 class ResturantListQuery extends QueryBase {}
 
