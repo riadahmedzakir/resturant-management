@@ -2,13 +2,14 @@ import { Review } from './../../../../common/domain.dtos/review.model';
 import {
   CommonCommandResponse,
   CommonQueryResponse,
-} from '../../../../common/request-response/response/common.response';
+} from '../../../../common/request-response/response/common/common.response';
 import {
   ProductReviewListQuery,
   ResturantReviewListQuery,
   SubmitReviewCommand,
   UserReviewListQuery,
 } from './../../../../common/request-response/request/review/review.request';
+import { UserReviewResponse } from './../../../../common/request-response/response/review/user-review.response';
 
 interface IReviewService {
   getAllReviewByResturantId: (
@@ -21,7 +22,7 @@ interface IReviewService {
 
   getAllReviewByUserId: (
     query: UserReviewListQuery,
-  ) => Promise<CommonQueryResponse<Review[]>>;
+  ) => Promise<CommonQueryResponse<UserReviewResponse>>;
 
   submitResturantReview: (
     query: SubmitReviewCommand,

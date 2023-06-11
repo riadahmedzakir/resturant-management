@@ -1,6 +1,6 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { IResturantService } from '../contracts/resturant.service.interface';
-import { CommonQueryResponse } from '../../../../common/request-response/response/common.response';
+import { CommonQueryResponse } from '../../../../common/request-response/response/common/common.response';
 import { Resturant } from '../../../../common/domain.dtos/resturant.model';
 import { ResturantListQuery } from '../../../../common/request-response/request/resturant/resturant.request';
 import { GenericRepositoryService } from '../../../database/services/contracts/repository.service';

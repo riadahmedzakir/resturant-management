@@ -1,5 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { CommonQueryResponse } from '../../../common/request-response/response/common.response';
+import { CommonQueryResponse } from '../../../common/request-response/response/common/common.response';
 import { ResturantService } from '../services/concretes/resturant.service';
 import { Resturant } from './../../../common/domain.dtos/resturant.model';
 import { ResturantListQuery } from '../../../common/request-response/request/resturant/resturant.request';

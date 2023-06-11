@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import {
   CommonCommandResponse,
   CommonQueryResponse,
-} from '../../../../common/request-response/response/common.response';
+} from '../../../../common/request-response/response/common/common.response';
 import { GenericRepositoryService } from '../../../database/services/contracts/repository.service';
 import { IReviewService } from '../contracts/review.service.interface';
 import { Review } from './../../../../common/domain.dtos/review.model';
@@ -11,24 +11,85 @@ import {
   ResturantReviewListQuery,
   SubmitReviewCommand,
   UserReviewListQuery,
-} from 'src/common/request-response/request/review/review.request';
+} from './../../../../common/request-response/request/review/review.request';
+import { UserReviewResponse } from './../../../../common/request-response/response/review/user-review.response';
 
 @Injectable()
 export class ReviewService implements IReviewService {
   constructor(
     private readonly _genericRepositoryService: GenericRepositoryService,
   ) {}
-  getAllReviewByResturantId: (
+
+  async getAllReviewByResturantId(
     query: ResturantReviewListQuery,
-  ) => Promise<CommonQueryResponse<Review[]>>;
+  ): Promise<CommonQueryResponse<Review[]>> {
+    const reviews = await this._genericRepositoryService.getMany<Review>(
+      'Reviews',
+      `{ "ReviewEntityName" : "Resturant", "ReviewEntityId" : "${query.ResturantId}" }`,
+      `{ ${query.SortedBy}: ${query.Order} }`,
+      query.Skip,
+      query.Limit,
+    );
 
-  getAllReviewByProductId: (
+    const response = new CommonQueryResponse<Review[]>();
+    response.IsScuessful = true;
+    response.SuccessResponse = reviews;
+    response.StatusCode = HttpStatus.OK;
+
+    return response;
+  }
+
+  async getAllReviewByProductId(
     query: ProductReviewListQuery,
-  ) => Promise<CommonQueryResponse<Review[]>>;
+  ): Promise<CommonQueryResponse<Review[]>> {
+    const reviews = await this._genericRepositoryService.getMany<Review>(
+      'Reviews',
+      `{ "ReviewEntityName" : "Product", "ReviewEntityId" : "${query.ProductId}" }`,
+      `{ ${query.SortedBy}: ${query.Order} }`,
+      query.Skip,
+      query.Limit,
+    );
 
-  getAllReviewByUserId: (
+    const response = new CommonQueryResponse<Review[]>();
+    response.IsScuessful = true;
+    response.SuccessResponse = reviews;
+    response.StatusCode = HttpStatus.OK;
+
+    return response;
+  }
+
+  async getAllReviewByUserId(
     query: UserReviewListQuery,
-  ) => Promise<CommonQueryResponse<Review[]>>;
+  ): Promise<CommonQueryResponse<UserReviewResponse>> {
+    const userProductReviews =
+      await this._genericRepositoryService.getMany<Review>(
+        'Reviews',
+        `{ "ReviewEntityName" : "Product", "UserId" : "${query.UserId}" }`,
+        `{ ${query.SortedBy}: ${query.Order} }`,
+        query.Skip,
+        query.Limit,
+      );
+
+    const userResturantReviews =
+      await this._genericRepositoryService.getMany<Review>(
+        'Reviews',
+        `{ "ReviewEntityName" : "Resturant", "UserId" : "${query.UserId}" }`,
+        `{ ${query.SortedBy}: ${query.Order} }`,
+        query.Skip,
+        query.Limit,
+      );
+
+    const reviews = new UserReviewResponse();
+    reviews.ProductReviews = userProductReviews;
+    reviews.ResturantReviews = userResturantReviews;
+
+    const response = new CommonQueryResponse<UserReviewResponse>();
+    response.IsScuessful = true;
+    response.SuccessResponse = reviews;
+    response.StatusCode = HttpStatus.OK;
+
+    return response;
+  }
 
   submitResturantReview: (
     query: SubmitReviewCommand,
@@ -36,5 +97,5 @@ export class ReviewService implements IReviewService {
 
   submitProductReview: (
     query: SubmitReviewCommand,
-  ) => Promise<CommonQueryResponse<Review>>;
+  ) => Promise<CommonCommandResponse<Review>>;
 }

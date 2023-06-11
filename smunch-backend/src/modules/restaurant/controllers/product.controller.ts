@@ -1,5 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { CommonQueryResponse } from '../../../common/request-response/response/common.response';
+import { CommonQueryResponse } from '../../../common/request-response/response/common/common.response';
 import { ProductService } from '../services/concretes/product.service';
 import { Product } from './../../../common/domain.dtos/product.model';
 import { ProductListQuery } from './../../../common/request-response/request/product/product.request';
