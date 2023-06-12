@@ -11,6 +11,8 @@ review and the average rating, if they exist.
 
 `Backend` - Nestjs
 
+`Backend-Testing` - Jest + @nestjs/testing
+
 ## Database Design
 
 A simple ER-Diagram for a simple task
