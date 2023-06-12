@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { MongoClient } from 'mongodb';
+import { DATABASE_CONFIGURATION } from '../../config/database.constant';
 
 @Injectable()
 class MongoDbService {
-  _url = 'mongodb://127.0.0.1:27017';
-  _dbName = 'smunch-96982fd3-5a8e-4775-9f14-4252a077d1a6';
+  _url = DATABASE_CONFIGURATION.Url;
+  _dbName = DATABASE_CONFIGURATION.DatabaseName;
   _db: any;
 
   async initializeDatabase() {

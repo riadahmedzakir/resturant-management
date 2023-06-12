@@ -1,6 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ManagementController } from './controllers/management.controller';
-import { ManagementService } from './services/contracts/root.service';
+import { ManagementService } from './services/contracts/management.service';
 import { LoggerMiddleware } from './../../middlewares/logger.middleware';
 import { ResturantModule } from '../restaurant/resturant.module';
 
