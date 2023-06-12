@@ -1,0 +1,10 @@
+.body-container {
+    height: 93vh;
+    overflow-y: scroll;
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+}
+
+.body-container::-webkit-scrollbar {
+    display: none;
+}
