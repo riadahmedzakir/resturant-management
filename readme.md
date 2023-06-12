@@ -7,7 +7,7 @@ review and the average rating, if they exist.
 
 
 ## Choice of tech stack
-`Frontend` - React with MUI
+`Frontend` - Nextjs with MUI
 
 `Backend` - Nestjs
 
