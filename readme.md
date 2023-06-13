@@ -13,6 +13,8 @@ review and the average rating, if they exist.
 
 `Backend-Testing` - Jest + @nestjs/testing
 
+`Database` - MongoDb (Will change to PostgreSQL later, Just need to change the database driver)
+
 ## Database Design
 
 A simple ER-Diagram for a simple task
