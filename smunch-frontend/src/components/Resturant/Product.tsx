@@ -4,19 +4,35 @@ import { useRef, useState } from "react";
 import ProductModal from "./ProductModal";
 
 import RateReviewIcon from '@material-ui/icons/RateReview';
+import ReviewModal from "./ReviewModal";
 
 function Product(): JSX.Element {
     const [reviews, setReviews] = useState([1, 2, 3, 4, 5]);
     const [products, setProducts] = useState([1, 2, 3, 4, 5]);
-    const [open, setOpen] = useState(false);
+    const [openProductModal, setOpenProductModal] = useState(false);
 
-    const handleOpen = () => {
-        setOpen(true);
+    const [openReviewModal, setOpenReviewModal] = useState(false);
+    const [reviewModalType, setReviewModalType] = useState<'Product' | 'Resturant'>('Resturant');
+    const [reviewModalData, setReviewModalData] = useState("");
+
+    const handleProductOpen = () => {
+        setOpenProductModal(true);
     };
 
-    const handleClose = () => {
-        setOpen(false);
+    const handleProductClose = () => {
+        setOpenProductModal(false);
     };
+
+    const handleReviewOpen = (type: 'Product' | 'Resturant', data: any) => {
+        setReviewModalType(type);
+        setReviewModalData(data);
+        setOpenReviewModal(true);
+    };
+
+    const handleReviewClose = () => {
+        setOpenReviewModal(false);
+    };
+
 
     return (
         <Grid className="resturant-container" container justifyContent="space-between" direction="row">
@@ -65,7 +81,7 @@ function Product(): JSX.Element {
                                 <Typography variant='h5'>Reviews</Typography>
                             </Grid>
                             <Grid item xl={4} justifyContent="flex-end" style={{ display: "flex" }}>
-                                <IconButton color="primary" aria-label="review">
+                                <IconButton color="primary" aria-label="review" onClick={() => { handleReviewOpen("Resturant", "Test") }}>
                                     <RateReviewIcon />
                                 </IconButton>
                             </Grid>
@@ -124,10 +140,10 @@ function Product(): JSX.Element {
                                                 </Grid>
                                             </Grid>
                                             <Grid item xl={12} style={{ marginTop: '20px' }}>
-                                                <Button fullWidth variant="contained" color="primary" onClick={handleOpen}>
+                                                <Button fullWidth variant="contained" color="primary" onClick={handleProductOpen}>
                                                     Check Out
                                                 </Button>
-                                                <Button style={{ marginTop: '10px' }} fullWidth variant="outlined" color="primary" onClick={handleOpen}>
+                                                <Button style={{ marginTop: '10px' }} fullWidth variant="outlined" color="primary" onClick={() => { handleReviewOpen("Product", "Test") }}>
                                                     Review Product
                                                 </Button>
                                             </Grid>
@@ -140,7 +156,9 @@ function Product(): JSX.Element {
                 </Grid>
             </Grid>
 
-            <ProductModal open={open} handleClose={handleClose} />
+            <ProductModal open={openProductModal} handleClose={handleProductClose} />
+
+            <ReviewModal open={openReviewModal} handleClose={handleReviewClose} type={reviewModalType} data={reviewModalData} />
         </Grid>
     )
 }

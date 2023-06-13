@@ -9,7 +9,12 @@ const Transition = forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function ProductModal(props: any): JSX.Element {
+interface ProductModalProps {
+    handleClose: () => void;
+    open: boolean;
+}
+
+function ProductModal(props: ProductModalProps): JSX.Element {
     const { handleClose, open } = props;
 
     const [reviews, setReviews] = useState([1, 2, 3, 4, 5]);
@@ -38,7 +43,7 @@ function ProductModal(props: any): JSX.Element {
                     </Grid>
                 </Grid>
             </DialogTitle>
-            <DialogContent>
+            <DialogContent className="product-modal-body">
                 <DialogContentText id="alert-dialog-description">
                     <img style={{ width: "100%", height: '200px' }} src={`${process.env.PUBLIC_URL}/placeholder.png`} alt="Burger" />
                     <Typography style={{ textAlign: "justify" }} variant="body1">

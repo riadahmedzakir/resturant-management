@@ -1,3 +1,12 @@
-.resturant-container{
+.resturant-container {
     padding: 34px 20px 34px 20px;
+}
+
+.product-modal-body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.product-modal-body::-webkit-scrollbar {
+    display: none;
 }
