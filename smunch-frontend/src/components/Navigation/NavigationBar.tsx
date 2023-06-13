@@ -43,7 +43,7 @@ function NavigationBar(): JSX.Element {
                 horizontal: 'right',
               }}
             >
-              <MenuItem onClick={handleProfile}>Profile</MenuItem>
+              <MenuItem onClick={handleProfile}>Review History</MenuItem>
               <MenuItem onClick={handleClose}>Logout</MenuItem>
             </Menu>
           </div>

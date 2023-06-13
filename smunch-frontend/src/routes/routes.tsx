@@ -6,6 +6,8 @@ import Resturant from "../components/Resturant/Resturant";
 import About from "../components/About/About";
 import Contact from "../components/Contact/Contact";
 import UserReview from "../components/UserReview/UserReview";
+import ResturantContainer from "../components/Resturant/ResturantContainer";
+import Product from "../components/Resturant/Product";
 
 const router = createBrowserRouter([
   {
@@ -20,8 +22,20 @@ const router = createBrowserRouter([
       },
       {
         path: "/resturants",
-        element: <Resturant />,
+        element: <ResturantContainer />,
         errorElement: <ErrorPage />,
+        children: [
+          {
+            path: "/resturants",
+            element: <Resturant />,
+            errorElement: <ErrorPage />,
+          },
+          {
+            path: "/resturants/:id",
+            element: <Product />,
+            errorElement: <ErrorPage />,
+          },
+        ]
       },
       {
         path: "/about",
