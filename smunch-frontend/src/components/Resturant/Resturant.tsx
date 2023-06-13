@@ -153,12 +153,28 @@ function Resturant(): JSX.Element {
                                         <Grid container direction='row'>
                                             <Grid item xl={12}>
                                                 <Grid container justifyContent='space-between'>
-                                                    <Grid item xl={5} style={{ display: "flex" }}>
+                                                    <Grid item xl={5}>
                                                         <Rating name="read-only" value={1} readOnly />
                                                     </Grid>
-                                                    <Grid item xl={3} style={{ display: "flex" }}>
+                                                    <Grid item xl={3} style={{ textAlign: "end" }}>
                                                         <p style={{ margin: "3px" }}>1/5 (42)</p>
                                                     </Grid>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid style={{ marginTop: '15px' }} container justifyContent="space-between">
+                                                <Grid item xl={5}>Operation Time</Grid>
+                                                <Grid item xl={5} style={{ textAlign: "end" }}>
+                                                    {new Intl.DateTimeFormat("en-GB", {
+                                                        hour: "numeric",
+                                                        minute: "numeric",
+                                                        hour12: true
+                                                    }).format(new Date())}
+                                                    &nbsp;-&nbsp;
+                                                    {new Intl.DateTimeFormat("en-GB", {
+                                                        hour: "numeric",
+                                                        minute: "numeric",
+                                                        hour12: true
+                                                    }).format(new Date())}
                                                 </Grid>
                                             </Grid>
                                             <Grid item xl={12} style={{ marginTop: '20px' }}>

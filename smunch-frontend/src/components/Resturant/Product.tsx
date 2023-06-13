@@ -1,10 +1,23 @@
-import { Avatar, Button, Card, CardContent, CardHeader, CardMedia, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText, Toolbar, Typography } from "@material-ui/core"
+import { Avatar, Button, Card, CardContent, CardHeader, CardMedia, Divider, Grid, Icon, IconButton, List, ListItem, ListItemAvatar, ListItemText, Toolbar, Typography } from "@material-ui/core"
 import Rating from "@material-ui/lab/Rating";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import ProductModal from "./ProductModal";
+
+import RateReviewIcon from '@material-ui/icons/RateReview';
 
 function Product(): JSX.Element {
     const [reviews, setReviews] = useState([1, 2, 3, 4, 5]);
     const [products, setProducts] = useState([1, 2, 3, 4, 5]);
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
         <Grid className="resturant-container" container justifyContent="space-between" direction="row">
 
@@ -20,17 +33,43 @@ function Product(): JSX.Element {
                         <Grid container direction='row'>
                             <Grid item xl={12}>
                                 <Grid container justifyContent='space-between'>
-                                    <Grid item xl={5} style={{ display: "flex" }}>
+                                    <Grid item xl={5}>
                                         <Rating name="read-only" value={1} readOnly />
                                     </Grid>
-                                    <Grid item xl={3} style={{ display: "flex" }}>
+                                    <Grid item xl={3} style={{ textAlign: "end" }}>
                                         <p style={{ margin: "3px" }}>1/5 (42)</p>
                                     </Grid>
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Divider style={{ marginTop: '20px', marginBottom: '20px' }} variant="middle" />
-                        <Typography variant='h5'>Reviews</Typography>
+                        <Grid style={{ marginTop: '15px' }} container justifyContent="space-between">
+                            <Grid item xl={3}>Operation Time</Grid>
+                            <Grid item xl={5} style={{ textAlign: "end" }}>
+                                {new Intl.DateTimeFormat("en-GB", {
+                                    hour: "numeric",
+                                    minute: "numeric",
+                                    hour12: true
+                                }).format(new Date())}
+                                &nbsp;-&nbsp;
+                                {new Intl.DateTimeFormat("en-GB", {
+                                    hour: "numeric",
+                                    minute: "numeric",
+                                    hour12: true
+                                }).format(new Date())}
+                            </Grid>
+                        </Grid>
+                        <Divider style={{ marginTop: '15px', marginBottom: '20px' }} variant="middle" />
+
+                        <Grid container justifyContent="space-between">
+                            <Grid item xl={4}>
+                                <Typography variant='h5'>Reviews</Typography>
+                            </Grid>
+                            <Grid item xl={4} justifyContent="flex-end" style={{ display: "flex" }}>
+                                <IconButton color="primary" aria-label="review">
+                                    <RateReviewIcon />
+                                </IconButton>
+                            </Grid>
+                        </Grid>
 
                         <List>
                             {
@@ -67,7 +106,7 @@ function Product(): JSX.Element {
                             <Grid key={product} item xl={3}>
                                 <Card variant="outlined">
                                     <CardHeader style={{ padding: '12px' }} title="Item"
-                                        subheader={product} />
+                                        subheader="$ 125.00" />
 
                                     <CardMedia style={{ height: 0, paddingTop: '40%' }}
                                         image="https://fakeimg.pl/600x400/b57070/909090"
@@ -85,8 +124,11 @@ function Product(): JSX.Element {
                                                 </Grid>
                                             </Grid>
                                             <Grid item xl={12} style={{ marginTop: '20px' }}>
-                                                <Button fullWidth variant="outlined" color="primary">
+                                                <Button fullWidth variant="contained" color="primary" onClick={handleOpen}>
                                                     Check Out
+                                                </Button>
+                                                <Button style={{ marginTop: '10px' }} fullWidth variant="outlined" color="primary" onClick={handleOpen}>
+                                                    Review Product
                                                 </Button>
                                             </Grid>
                                         </Grid>
@@ -97,6 +139,8 @@ function Product(): JSX.Element {
                     }
                 </Grid>
             </Grid>
+
+            <ProductModal open={open} handleClose={handleClose} />
         </Grid>
     )
 }
