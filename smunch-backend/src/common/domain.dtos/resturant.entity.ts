@@ -3,7 +3,7 @@ import { Cuisine } from '../constants/cuisine.constant';
 class Resturant {
   _id: string;
   Name: string;
-  Address: string;
+  Description: string;
   OpeningTime: Date;
   ClosingTime: Date;
   Cuisine: Cuisine[];
