@@ -14,6 +14,8 @@ import {
 } from '../../../../common/request-response/request/review/review.request.dto';
 import { UserReviewResponse } from '../../../../common/request-response/response/review/user-review.response.dto';
 import { v4 as uuidv4 } from 'uuid';
+import { Resturant } from 'src/common/domain.dtos/resturant.entity';
+import { Product } from 'src/common/domain.dtos/product.entity';
 
 @Injectable()
 export class ReviewService implements IReviewService {
@@ -107,6 +109,23 @@ export class ReviewService implements IReviewService {
     const reviewResponse =
       await this._genericRepositoryService.insertOne<Review>('Reviews', review);
 
+    const resturantResponse =
+      await this._genericRepositoryService.getOne<Resturant>(
+        'Resturants',
+        `{"_id": "${command.ReviewEntityId}"}`,
+      );
+
+    const newRating = this.calculateRating(
+      command.Rating,
+      resturantResponse.Rating,
+    );
+
+    await this._genericRepositoryService.updateOne<Resturant>(
+      'Resturants',
+      `{"_id":"${command.ReviewEntityId}"}`,
+      `{"Rating": "${newRating}"}`,
+    );
+
     const response: CommonCommandResponse<Review> = {
       IsScuessful: true,
       SuccessResponse: reviewResponse,
@@ -132,6 +151,23 @@ export class ReviewService implements IReviewService {
     const reviewResponse =
       await this._genericRepositoryService.insertOne<Review>('Reviews', review);
 
+    const resturantResponse =
+      await this._genericRepositoryService.getOne<Product>(
+        'Products',
+        `{"_id": "${command.ReviewEntityId}"}`,
+      );
+
+    const newRating = this.calculateRating(
+      command.Rating,
+      resturantResponse.Rating,
+    );
+
+    await this._genericRepositoryService.updateOne<Product>(
+      'Products',
+      `{"_id":"${command.ReviewEntityId}"}`,
+      `{"Rating": "${newRating}"}`,
+    );
+
     const response: CommonCommandResponse<Review> = {
       IsScuessful: true,
       SuccessResponse: reviewResponse,
@@ -140,5 +176,23 @@ export class ReviewService implements IReviewService {
     };
 
     return response;
+  }
+
+  private calculateRating(
+    newRating: number,
+    previousRatingString: string,
+  ): string {
+    const regex = /(\d+)/g;
+    const matches = previousRatingString.match(regex);
+    const previousRating = matches?.[0] ? parseFloat(matches[0]) : 0;
+    const previousRatingCount = matches?.[matches.length - 1]
+      ? parseInt(matches[matches.length - 1])
+      : 0;
+    const denominator = previousRatingCount ? 2 : 1;
+
+    const count = previousRatingCount + 1;
+    const rating = (previousRating + newRating) / denominator;
+
+    return `${rating.toFixed(1)}/5.0 (${count})`;
   }
 }
