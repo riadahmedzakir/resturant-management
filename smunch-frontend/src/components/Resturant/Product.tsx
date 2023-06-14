@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Avatar, Button, Card, CardContent, CardHeader, CardMedia, Divider, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@material-ui/core";
+import { Avatar, Button, Card, CardContent, CardHeader, CardMedia, CircularProgress, Divider, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
 import { useEffect, useState } from "react";
 import ProductModal from "./ProductModal";
@@ -28,6 +28,8 @@ function Product(): JSX.Element {
     const [reviews, setReviews] = useState<IReviewDto[]>();
     const [products, setProducts] = useState<IProductDto[] | undefined>();
     const [openProductModal, setOpenProductModal] = useState(false);
+    const [productLoading, setProductLoading] = useState(true);
+    const [reviewLoading, setReviewLoading] = useState(true);
 
     const [openReviewModal, setOpenReviewModal] = useState(false);
     const [reviewModalType, setReviewModalType] = useState<'Product' | 'Resturant'>('Resturant');
@@ -67,9 +69,10 @@ function Product(): JSX.Element {
     const getProducts = (resturantId: string) => {
         ProductFacade.getProductListApi(resturantId).then(response => {
             const products = response.data?.SuccessResponse;
-            setProducts(products)
+            setProducts(products);
+            dispatch(SetProduct(products));
 
-            dispatch(SetProduct(products))
+            setProductLoading(false);
         });
     }
 
@@ -78,6 +81,7 @@ function Product(): JSX.Element {
             const reviews = response.data?.SuccessResponse;
 
             setReviews(reviews);
+            setReviewLoading(false);
         });
     }
 
@@ -149,81 +153,91 @@ function Product(): JSX.Element {
                             </Grid>
                         </Grid>
 
-                        <List>
-                            {
-                                reviews?.map(review =>
-                                    <>
-                                        <ListItem alignItems="flex-start">
-                                            <ListItemAvatar>
-                                                <Avatar alt="Remy Sharp" />
-                                            </ListItemAvatar>
-                                            <ListItemText
-                                                secondary={
-                                                    <>
-                                                        <Typography component="span" variant="body2" color="textPrimary">
-                                                            Lorem ipsum dolor
-                                                        </Typography>
-                                                        {" — Lorem ipsum dolor sit amet, consectetur adipiscing elit…"}
-                                                    </>
-                                                }
-                                            />
-                                        </ListItem>
-                                        <Divider variant="middle" />
-                                    </>
-                                )
-                            }
-                        </List>
+                        {
+                            reviewLoading ?
+                                <Grid item xl={12} justifyContent='center' style={{ display: "flex", height: "100%" }}>
+                                    <CircularProgress style={{ margin: 'auto' }} size={50} />
+                                </Grid> :
+                                <List>
+                                    {
+                                        reviews?.map(review =>
+                                            <>
+                                                <ListItem alignItems="flex-start">
+                                                    <ListItemAvatar>
+                                                        <Avatar alt="Remy Sharp" />
+                                                    </ListItemAvatar>
+                                                    <ListItemText
+                                                        secondary={
+                                                            <>
+                                                                <Typography component="span" variant="body2" color="textPrimary">
+                                                                    Lorem ipsum dolor
+                                                                </Typography>
+                                                                {" — Lorem ipsum dolor sit amet, consectetur adipiscing elit…"}
+                                                            </>
+                                                        }
+                                                    />
+                                                </ListItem>
+                                                <Divider variant="middle" />
+                                            </>
+                                        )
+                                    }
+                                </List>
+                        }
                     </CardContent>
                 </Card>
             </Grid>
 
             <Grid item xl={9} style={{ padding: "0px 20px 0px 20px" }}>
-                <Grid container spacing={2}>
+                <Grid container spacing={2} style={{ height: '100%' }}>
                     {
-                        products?.map(product =>
-                            <Grid key={product._id} item xl={3}>
-                                <Card variant="outlined">
-                                    <CardHeader style={{ padding: '12px' }}
-                                        title={
-                                            <Typography style={{ width: "98%" }} className='text-elipsis' variant='h5'>
-                                                {product.Name}
-                                            </Typography>
-                                        }
-                                        subheader={
-                                            <Typography style={{ width: "98%" }} className='text-elipsis' variant='subtitle2'>
-                                                $ {product.Price}
-                                            </Typography>
-                                        } />
+                        productLoading ?
+                            <Grid item xl={12} justifyContent='center' style={{ display: "flex", height: "100%" }}>
+                                <CircularProgress style={{ margin: 'auto' }} size={100} />
+                            </Grid> :
+                            products?.map(product =>
+                                <Grid key={product._id} item xl={3}>
+                                    <Card variant="outlined">
+                                        <CardHeader style={{ padding: '12px' }}
+                                            title={
+                                                <Typography style={{ width: "98%" }} className='text-elipsis' variant='h5'>
+                                                    {product.Name}
+                                                </Typography>
+                                            }
+                                            subheader={
+                                                <Typography style={{ width: "98%" }} className='text-elipsis' variant='subtitle2'>
+                                                    $ {product.Price}
+                                                </Typography>
+                                            } />
 
-                                    <CardMedia style={{ height: 0, paddingTop: '45%' }}
-                                        image="https://fakeimg.pl/600x400/b57070/909090"
-                                        title="Image" />
+                                        <CardMedia style={{ height: 0, paddingTop: '45%' }}
+                                            image="https://fakeimg.pl/600x400/b57070/909090"
+                                            title="Image" />
 
-                                    <CardContent>
-                                        <Grid container direction='row'>
-                                            <Grid item xl={12}>
-                                                <Grid container justifyContent='space-between'>
-                                                    <Grid item xl={5}>
-                                                        <Rating name="read-only" value={getRatingValue(product.Rating)} readOnly />
-                                                    </Grid>
-                                                    <Grid item xl={3} style={{ textAlign: "end" }}>
-                                                        <p style={{ margin: "3px" }}>{product.Rating ? product.Rating : 'N/A'}</p>
+                                        <CardContent>
+                                            <Grid container direction='row'>
+                                                <Grid item xl={12}>
+                                                    <Grid container justifyContent='space-between'>
+                                                        <Grid item xl={5}>
+                                                            <Rating name="read-only" value={getRatingValue(product.Rating)} readOnly />
+                                                        </Grid>
+                                                        <Grid item xl={3} style={{ textAlign: "end" }}>
+                                                            <p style={{ margin: "3px" }}>{product.Rating ? product.Rating : 'N/A'}</p>
+                                                        </Grid>
                                                     </Grid>
                                                 </Grid>
+                                                <Grid item xl={12} style={{ marginTop: '20px' }}>
+                                                    <Button fullWidth variant="contained" color="primary" onClick={() => handleProductOpen(product._id)}>
+                                                        Check Out
+                                                    </Button>
+                                                    <Button style={{ marginTop: '10px' }} fullWidth variant="outlined" color="primary" onClick={() => { handleReviewOpen("Product", "Test") }}>
+                                                        Review Product
+                                                    </Button>
+                                                </Grid>
                                             </Grid>
-                                            <Grid item xl={12} style={{ marginTop: '20px' }}>
-                                                <Button fullWidth variant="contained" color="primary" onClick={() => handleProductOpen(product._id)}>
-                                                    Check Out
-                                                </Button>
-                                                <Button style={{ marginTop: '10px' }} fullWidth variant="outlined" color="primary" onClick={() => { handleReviewOpen("Product", "Test") }}>
-                                                    Review Product
-                                                </Button>
-                                            </Grid>
-                                        </Grid>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                        )
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                            )
                     }
                 </Grid>
             </Grid>

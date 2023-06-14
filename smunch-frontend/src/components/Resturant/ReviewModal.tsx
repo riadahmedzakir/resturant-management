@@ -1,9 +1,7 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, Slide, TextField, Typography } from "@material-ui/core";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Slide, TextField, Typography } from "@material-ui/core";
 import { TransitionProps } from "@material-ui/core/transitions";
-import { forwardRef, useState } from "react";
-import { IProductDto } from "../../constants/product.interface";
-import { IResturantDto } from "../../constants/resturant.interface";
 import { Rating } from "@material-ui/lab";
+import { forwardRef, useState } from "react";
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & { children?: React.ReactElement<any, any> },

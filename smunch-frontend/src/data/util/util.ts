@@ -8,3 +8,7 @@ export const getRatingValue = (rating: string) => {
     const result = parseInt(valueFromString);
     return result;
 }
+
+export const getUserId = () => {
+    return '225ad65f-5516-4f81-aee3-95edfa87e298';
+}

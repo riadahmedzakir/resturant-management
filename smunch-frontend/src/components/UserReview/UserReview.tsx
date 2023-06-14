@@ -1,16 +1,30 @@
-import { Avatar, Card, CardContent, CardHeader, CardMedia, Divider, FormControlLabel, Grid, Hidden, IconButton, List, ListItem, ListItemAvatar, ListItemText, Paper, Switch, Typography } from '@material-ui/core';
-import './UserReview.css'
+import { Avatar, Card, CardContent, CardHeader, CardMedia, CircularProgress, Divider, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Paper, Switch, Typography } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
-import { useState } from 'react';
+import { isEqual } from 'lodash';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDarkTheme, setLightTheme, themeState } from '../../data/state/theme/theme.slice';
-import { isEqual } from 'lodash';
+import './UserReview.css';
+import { UserReviewResponse } from '../../constants/user-review.interface';
+import { ReviewFacade } from '../../data/services/review/review.facade';
+import { getUserId } from '../../data/util/util';
 
 function UserReview(): JSX.Element {
     const dispatch = useDispatch();
     const isDark = useSelector(themeState, isEqual);
-    const [reviews, setReviews] = useState([1, 2, 3, 4, 5]);
+
+    const [loading, setLoading] = useState<boolean>(true);
+    const [reviews, setReviews] = useState<UserReviewResponse | undefined>();
     const [themState, setThemeState] = useState<boolean>(isDark);
+
+    useEffect(() => {
+        const userId = getUserId();
+        ReviewFacade.getUserReviewHistoryApi(userId).then(response => {
+            const userReviewHistory = response.data?.SuccessResponse;
+            setReviews(userReviewHistory);
+            setLoading(false);
+        });
+    }, []);
 
     const changeTheme = (event: React.ChangeEvent<HTMLInputElement>) => {
         const isChecked = event.target.checked;
@@ -136,69 +150,81 @@ function UserReview(): JSX.Element {
                         <Grid style={{ height: "45%" }} item>
                             <Typography variant='h5'>Resturant Reviews</Typography>
 
-                            <List className='user-review-list'>
-                                {
-                                    reviews.map(review =>
-                                        <>
-                                            <ListItem alignItems="flex-start">
-                                                <ListItemAvatar>
-                                                    <Avatar alt="Riad Zakir" />
-                                                </ListItemAvatar>
-                                                <ListItemText
-                                                    primary={
-                                                        <Typography variant="body1" color="textPrimary">
-                                                            Resturant {review}
-                                                        </Typography>
-                                                    }
-                                                    secondary={
-                                                        <>
-                                                            <Typography component="span" variant="body2" color="textPrimary">
-                                                                Lorem ipsum dolor
-                                                            </Typography>
-                                                            {" — Lorem ipsum dolor sit amet, consectetur adipiscing elit…"}
-                                                        </>
-                                                    }
-                                                />
-                                            </ListItem>
-                                            <Divider variant="middle" />
-                                        </>
-                                    )
-                                }
-                            </List>
+                            {
+                                loading ?
+                                    <Grid item xl={12} justifyContent='center' style={{ display: "flex", height: "100%" }}>
+                                        <CircularProgress style={{ margin: 'auto' }} size={100} />
+                                    </Grid> :
+                                    <List className='user-review-list'>
+                                        {
+                                            reviews?.ResturantReviews.map(review =>
+                                                <>
+                                                    <ListItem alignItems="flex-start">
+                                                        <ListItemAvatar>
+                                                            <Avatar alt="Riad Zakir" />
+                                                        </ListItemAvatar>
+                                                        <ListItemText
+                                                            primary={
+                                                                <Typography variant="body1" color="textPrimary">
+                                                                    Resturant
+                                                                </Typography>
+                                                            }
+                                                            secondary={
+                                                                <>
+                                                                    <Typography component="span" variant="body2" color="textPrimary">
+                                                                        Lorem ipsum dolor
+                                                                    </Typography>
+                                                                    {" — Lorem ipsum dolor sit amet, consectetur adipiscing elit…"}
+                                                                </>
+                                                            }
+                                                        />
+                                                    </ListItem>
+                                                    <Divider variant="middle" />
+                                                </>
+                                            )
+                                        }
+                                    </List>
+                            }
                         </Grid>
 
                         <Grid style={{ height: "45%" }} item>
                             <Typography variant='h5'>Products Reviews</Typography>
 
-                            <List className='user-review-list'>
-                                {
-                                    reviews.map(review =>
-                                        <>
-                                            <ListItem alignItems="flex-start">
-                                                <ListItemAvatar>
-                                                    <Avatar alt="Riad Zakir" />
-                                                </ListItemAvatar>
-                                                <ListItemText
-                                                    primary={
-                                                        <Typography variant="body1" color="textPrimary">
-                                                            Product {review}
-                                                        </Typography>
-                                                    }
-                                                    secondary={
-                                                        <>
-                                                            <Typography component="span" variant="body2" color="textPrimary">
-                                                                Lorem ipsum dolor
-                                                            </Typography>
-                                                            {" — Lorem ipsum dolor sit amet, consectetur adipiscing elit…"}
-                                                        </>
-                                                    }
-                                                />
-                                            </ListItem>
-                                            <Divider variant="middle" />
-                                        </>
-                                    )
-                                }
-                            </List>
+                            {
+                                loading ?
+                                    <Grid item xl={12} justifyContent='center' style={{ display: "flex", height: "100%" }}>
+                                        <CircularProgress style={{ margin: 'auto' }} size={100} />
+                                    </Grid> :
+                                    <List className='user-review-list'>
+                                        {
+                                            reviews?.ProductReviews.map(review =>
+                                                <>
+                                                    <ListItem alignItems="flex-start">
+                                                        <ListItemAvatar>
+                                                            <Avatar alt="Riad Zakir" />
+                                                        </ListItemAvatar>
+                                                        <ListItemText
+                                                            primary={
+                                                                <Typography variant="body1" color="textPrimary">
+                                                                    Product
+                                                                </Typography>
+                                                            }
+                                                            secondary={
+                                                                <>
+                                                                    <Typography component="span" variant="body2" color="textPrimary">
+                                                                        Lorem ipsum dolor
+                                                                    </Typography>
+                                                                    {" — Lorem ipsum dolor sit amet, consectetur adipiscing elit…"}
+                                                                </>
+                                                            }
+                                                        />
+                                                    </ListItem>
+                                                    <Divider variant="middle" />
+                                                </>
+                                            )
+                                        }
+                                    </List>
+                            }
                         </Grid>
                     </Grid>
                 </Paper>

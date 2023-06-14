@@ -1,4 +1,4 @@
-import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText, Slide, Typography } from "@material-ui/core";
+import { Avatar, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText, Slide, Typography } from "@material-ui/core";
 import { TransitionProps } from "@material-ui/core/transitions";
 import { isEqual } from "lodash";
 import { forwardRef, useEffect, useState } from "react";
@@ -26,6 +26,7 @@ function ProductModal(props: ProductModalProps): JSX.Element {
 
     const products = useSelector(getProducts, isEqual);
 
+    const [loading, setLoading] = useState<boolean>(true);
     const [selectedProduct, setSelectedProduct] = useState<IProductDto | undefined>();
     const [reviews, setReviews] = useState<IReviewDto[] | undefined>();
 
@@ -36,6 +37,7 @@ function ProductModal(props: ProductModalProps): JSX.Element {
         ReviewFacade.getProductReviewListApi(productId).then(response => {
             const reviews = response.data?.SuccessResponse;
             setReviews(reviews);
+            setLoading(false);
         })
 
     }, [products, productId]);
@@ -74,30 +76,36 @@ function ProductModal(props: ProductModalProps): JSX.Element {
 
                 <Typography variant='h5'>Reviews</Typography>
 
-                <List>
-                    {
-                        reviews?.map(review =>
-                            <>
-                                <ListItem alignItems="flex-start">
-                                    <ListItemAvatar>
-                                        <Avatar alt="Riad Zakir" />
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        secondary={
-                                            <>
-                                                <Typography component="span" variant="body2" color="textPrimary">
-                                                    Lorem ipsum dolor
-                                                </Typography>
-                                                {" — Lorem ipsum dolor sit amet, consectetur adipiscing elit…"}
-                                            </>
-                                        }
-                                    />
-                                </ListItem>
-                                <Divider variant="middle" />
-                            </>
-                        )
-                    }
-                </List>
+                {
+                    loading ?
+                        <Grid item xl={12} justifyContent='center' style={{ display: "flex", height: "100%" }}>
+                            <CircularProgress style={{ margin: 'auto' }} size={50} />
+                        </Grid> :
+                        <List>
+                            {
+                                reviews?.map(review =>
+                                    <>
+                                        <ListItem alignItems="flex-start">
+                                            <ListItemAvatar>
+                                                <Avatar alt="Riad Zakir" />
+                                            </ListItemAvatar>
+                                            <ListItemText
+                                                secondary={
+                                                    <>
+                                                        <Typography component="span" variant="body2" color="textPrimary">
+                                                            Lorem ipsum dolor
+                                                        </Typography>
+                                                        {" — Lorem ipsum dolor sit amet, consectetur adipiscing elit…"}
+                                                    </>
+                                                }
+                                            />
+                                        </ListItem>
+                                        <Divider variant="middle" />
+                                    </>
+                                )
+                            }
+                        </List>
+                }
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="primary" autoFocus>

@@ -13,6 +13,8 @@ function Resturant(): JSX.Element {
     const history = useNavigate();
     const dispatch = useDispatch()
 
+    const [loading, setLoading] = useState<boolean>(true);
+    const [resturants, setResturants] = useState<IResturantDto[]>([]);
     const [sortState, setSortState] = useState('recom');
     const [priceFilterValue, setPriceFilterValue] = useState(new Set());
     const [cuisineFilterState, setCuisineFilterState] = useState({
@@ -33,8 +35,7 @@ function Resturant(): JSX.Element {
         })
     }, [dispatch]);
 
-    const [resturants, setResturants] = useState<IResturantDto[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+
 
     const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSortState((event.target as HTMLInputElement).value);
@@ -161,8 +162,7 @@ function Resturant(): JSX.Element {
                             loading ?
                                 <Grid item xl={12} justifyContent='center' style={{ display: "flex", height: "100%" }}>
                                     <CircularProgress style={{ margin: 'auto' }} size={100} />
-                                </Grid>
-                                :
+                                </Grid> :
                                 resturants.map(resturant =>
                                     <Grid key={resturant._id} item xl={3}>
                                         <Card variant="outlined">
