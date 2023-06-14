@@ -1,0 +1,14 @@
+.user-review-container {
+    padding: 0px 20px 0px 20px;
+}
+
+.user-review-list {
+    max-height: 280px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.user-review-list::-webkit-scrollbar {
+    display: none;
+}

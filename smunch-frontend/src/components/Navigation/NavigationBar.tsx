@@ -17,7 +17,7 @@ function NavigationBar(): JSX.Element {
   };
 
   const handleProfile = () => {
-    history('/my-reviews');
+    history('/profile');
     handleClose();
   }
 
@@ -43,7 +43,7 @@ function NavigationBar(): JSX.Element {
                 horizontal: 'right',
               }}
             >
-              <MenuItem onClick={handleProfile}>Review History</MenuItem>
+              <MenuItem onClick={handleProfile}>Profile</MenuItem>
               <MenuItem onClick={handleClose}>Logout</MenuItem>
             </Menu>
           </div>
