@@ -1,11 +1,22 @@
 import { Avatar, Card, CardContent, CardHeader, CardMedia, Divider, FormControlLabel, Grid, Hidden, IconButton, List, ListItem, ListItemAvatar, ListItemText, Paper, Switch, Typography } from '@material-ui/core';
 import './UserReview.css'
-import { Rating } from '@material-ui/lab';
 import EditIcon from '@material-ui/icons/Edit';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setDarkTheme, setLightTheme, themeState } from '../../data/state/theme/theme.slice';
+import { isEqual } from 'lodash';
 
 function UserReview(): JSX.Element {
+    const dispatch = useDispatch();
+    const isDark = useSelector(themeState, isEqual);
     const [reviews, setReviews] = useState([1, 2, 3, 4, 5]);
+    const [themState, setThemeState] = useState<boolean>(isDark);
+
+    const changeTheme = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const isChecked = event.target.checked;
+        dispatch(isChecked ? setDarkTheme() : setLightTheme());
+        setThemeState(isChecked);
+    }
 
     return (
         <Grid className="resturant-container" container justifyContent="space-between" direction="row">
@@ -96,6 +107,20 @@ function UserReview(): JSX.Element {
                             </Grid>
                         </Grid>
                         <Divider style={{ marginTop: '15px', marginBottom: '20px' }} variant="middle" />
+
+                        <Grid container direction='row'>
+                            <Grid item xl={12}>
+                                <Grid container justifyContent='space-between'>
+                                    <Grid item xl={5}>
+                                        <Typography variant='body1'>Dark Mode</Typography>
+                                    </Grid>
+                                    <Grid item xl={5} style={{ textAlign: "end" }}>
+                                        <Switch checked={themState} color='primary'
+                                            onChange={changeTheme} />
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
                     </CardContent>
                 </Card>
             </Grid>
