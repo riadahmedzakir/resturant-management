@@ -1,10 +1,16 @@
 .body-container {
     height: 93vh;
     overflow-y: scroll;
-    -ms-overflow-style: none; 
+    -ms-overflow-style: none;
     scrollbar-width: none;
 }
 
 .body-container::-webkit-scrollbar {
     display: none;
+}
+
+.text-elipsis {    
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

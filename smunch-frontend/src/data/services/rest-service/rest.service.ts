@@ -4,7 +4,7 @@ import { RestMethods } from "../../models/RestMethods";
 
 export const FetchApi = async <T>(url: string, method: RestMethods, init?: RequestInit): Promise<APIResponse<T>> => {
     return window
-        .fetch(`${`http://localhost:3001/api/v1`}${url}`, { method, ...init, })
+        .fetch(`${`http://localhost:3001/`}${url}`, { method, ...init, })
         .then(async (response) => {
 
             if (response.ok || response.status < 400) {

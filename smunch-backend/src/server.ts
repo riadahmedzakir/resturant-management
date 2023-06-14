@@ -10,7 +10,7 @@ import { RootModule } from './modules/root/root.module';
 
 async function bootstrap() {
   await MongoClient.initializeDatabase().then(async () => {
-    const app = await NestFactory.create(RootModule);
+    const app = await NestFactory.create(RootModule, { cors: true });
 
     const swaggerConfig = new DocumentBuilder()
       .setTitle('sMunch.Rest.Api')
@@ -39,7 +39,7 @@ async function bootstrap() {
         transformOptions: { enableImplicitConversion: true },
       }),
     );
-    await app.listen(3000);
+    await app.listen(3001);
   });
 }
 

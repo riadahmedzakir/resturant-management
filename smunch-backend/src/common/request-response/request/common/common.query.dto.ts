@@ -31,10 +31,10 @@ class QueryBase {
   Order: number = 1;
 
   @IsNumber()
-  Skip = 0;
+  Skip: number = 0;
 
   @IsNumber()
-  Limit = 10;
+  Limit: number = 10;
 }
 
 export { QueryBase };
