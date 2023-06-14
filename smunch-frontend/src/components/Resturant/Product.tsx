@@ -24,6 +24,7 @@ function Product(): JSX.Element {
     const resturants = useSelector(getResturants, isEqual);
 
     const [selectedResturant, setSelectedResturant] = useState<IResturantDto | undefined>();
+    const [selectedProductId, setSelectedProductId] = useState<string>("");
     const [reviews, setReviews] = useState<IReviewDto[]>();
     const [products, setProducts] = useState<IProductDto[] | undefined>();
     const [openProductModal, setOpenProductModal] = useState(false);
@@ -44,7 +45,8 @@ function Product(): JSX.Element {
 
     }, [dispatch, location, resturants]);
 
-    const handleProductOpen = () => {
+    const handleProductOpen = (productId: string) => {
+        setSelectedProductId(productId);
         setOpenProductModal(true);
     };
 
@@ -210,7 +212,7 @@ function Product(): JSX.Element {
                                                 </Grid>
                                             </Grid>
                                             <Grid item xl={12} style={{ marginTop: '20px' }}>
-                                                <Button fullWidth variant="contained" color="primary" onClick={handleProductOpen}>
+                                                <Button fullWidth variant="contained" color="primary" onClick={() => handleProductOpen(product._id)}>
                                                     Check Out
                                                 </Button>
                                                 <Button style={{ marginTop: '10px' }} fullWidth variant="outlined" color="primary" onClick={() => { handleReviewOpen("Product", "Test") }}>
@@ -226,7 +228,7 @@ function Product(): JSX.Element {
                 </Grid>
             </Grid>
 
-            <ProductModal open={openProductModal} handleClose={handleProductClose} />
+            <ProductModal open={openProductModal} handleClose={handleProductClose} productId={selectedProductId} />
 
             <ReviewModal open={openReviewModal} handleClose={handleReviewClose} type={reviewModalType} data={reviewModalData} />
         </Grid>

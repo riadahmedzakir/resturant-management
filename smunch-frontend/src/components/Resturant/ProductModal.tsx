@@ -1,6 +1,12 @@
-import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText, Slide, TextField, Typography } from "@material-ui/core";
+import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText, Slide, Typography } from "@material-ui/core";
 import { TransitionProps } from "@material-ui/core/transitions";
-import { forwardRef, useRef, useState } from "react";
+import { isEqual } from "lodash";
+import { forwardRef, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { IProductDto } from "../../constants/product.interface";
+import { IReviewDto } from "../../constants/review.interface";
+import { ReviewFacade } from "../../data/services/review/review.facade";
+import { getProducts } from "../../data/state/application/application.slice";
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & { children?: React.ReactElement<any, any> },
@@ -12,12 +18,27 @@ const Transition = forwardRef(function Transition(
 interface ProductModalProps {
     handleClose: () => void;
     open: boolean;
+    productId: string;
 }
 
 function ProductModal(props: ProductModalProps): JSX.Element {
-    const { handleClose, open } = props;
+    const { handleClose, open, productId } = props;
 
-    const [reviews, setReviews] = useState([1, 2, 3, 4, 5]);
+    const products = useSelector(getProducts, isEqual);
+
+    const [selectedProduct, setSelectedProduct] = useState<IProductDto | undefined>();
+    const [reviews, setReviews] = useState<IReviewDto[] | undefined>();
+
+    useEffect(() => {
+        const selectedResturant = products.find(x => x._id === productId);
+        setSelectedProduct(selectedResturant);
+
+        ReviewFacade.getProductReviewListApi(productId).then(response => {
+            const reviews = response.data?.SuccessResponse;
+            setReviews(reviews);
+        })
+
+    }, [products, productId]);
 
     return (
         <Dialog
@@ -28,15 +49,15 @@ function ProductModal(props: ProductModalProps): JSX.Element {
             <DialogTitle>
                 <Grid container>
                     <Grid item xl={12}>
-                        <Typography variant="h4">Item 1</Typography>
+                        <Typography variant="h4">{selectedProduct?.Name}</Typography>
                     </Grid>
                     <Grid item xl={12}>
                         <Grid container justifyContent="space-between">
                             <Grid item xl={4}>
-                                <Typography variant="body1">$ 120.00</Typography>
+                                <Typography variant="body1">$ {selectedProduct?.Price}</Typography>
                             </Grid>
                             <Grid item xl={4} style={{ textAlign: "end" }}>
-                                <Typography variant="body1">Rating: 4/5 (43)</Typography>
+                                <Typography variant="body1">{selectedProduct?.Rating ? selectedProduct.Rating : 'N/A'}</Typography>
                             </Grid>
                         </Grid>
                         <Divider />
@@ -47,7 +68,7 @@ function ProductModal(props: ProductModalProps): JSX.Element {
                 <DialogContentText id="alert-dialog-description">
                     <img style={{ width: "100%", height: '200px' }} src={`${process.env.PUBLIC_URL}/placeholder.png`} alt="Burger" />
                     <Typography style={{ textAlign: "justify" }} variant="body1">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                        {selectedProduct?.Description}
                     </Typography>
                 </DialogContentText>
 
@@ -55,7 +76,7 @@ function ProductModal(props: ProductModalProps): JSX.Element {
 
                 <List>
                     {
-                        reviews.map(review =>
+                        reviews?.map(review =>
                             <>
                                 <ListItem alignItems="flex-start">
                                     <ListItemAvatar>
