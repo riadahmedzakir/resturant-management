@@ -16,7 +16,7 @@ const Transition = forwardRef(function Transition(
 });
 
 interface ReviewModalProps {
-    handleClose: () => void;
+    handleClose: (type: string) => void;
     open: boolean;
     type: 'Product' | 'Resturant';
     data: IProductDto | IResturantDto | undefined;
@@ -49,7 +49,7 @@ function ReviewModal(props: ReviewModalProps): JSX.Element {
                 setLoading(false);
                 setRatingValue(0);
                 setCommentValue("");
-                handleClose();
+                handleClose(type);
             });
         }
 
@@ -58,7 +58,7 @@ function ReviewModal(props: ReviewModalProps): JSX.Element {
                 setLoading(false);
                 setRatingValue(0);
                 setCommentValue("");
-                handleClose();
+                handleClose(type);
             });
         }
     }
@@ -109,7 +109,7 @@ function ReviewModal(props: ReviewModalProps): JSX.Element {
                     }>
                     Submit Review
                 </Button>
-                <Button variant="outlined" onClick={handleClose} disabled={loading}>
+                <Button variant="outlined" onClick={() => handleClose("")} disabled={loading}>
                     Cancel
                 </Button>
             </DialogActions>

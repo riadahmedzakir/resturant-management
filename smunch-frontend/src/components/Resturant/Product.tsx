@@ -64,7 +64,15 @@ function Product(): JSX.Element {
         setOpenReviewModal(true);
     };
 
-    const handleReviewClose = () => {
+    const handleReviewClose = (type: string) => {
+        if (type === "Product") {
+            getProducts(selectedResturant?._id ?? "");
+        }
+
+        if (type === "Resturant") {
+            getReviews(selectedResturant?._id ?? "");
+        }
+
         setOpenReviewModal(false);
     };
 
@@ -222,7 +230,7 @@ function Product(): JSX.Element {
                                                         <Grid item xl={5}>
                                                             <Rating name="read-only" value={getRatingValue(product.Rating)} readOnly />
                                                         </Grid>
-                                                        <Grid item xl={3} style={{ textAlign: "end" }}>
+                                                        <Grid item xl={4} style={{ textAlign: "end" }}>
                                                             <p style={{ margin: "3px" }}>{product.Rating ? product.Rating : 'N/A'}</p>
                                                         </Grid>
                                                     </Grid>
