@@ -4,6 +4,7 @@ import { PersistConfig, Persistor, persistStore } from "redux-persist";
 import persistReducer, { PersistPartial } from "redux-persist/es/persistReducer";
 import storage from 'redux-persist/lib/storage';
 import { THEME_KEY, ThemeState, themeReducer } from "../state/theme/theme.slice";
+import { APPLICATION_KEY, ApplicationState, applicationReducer } from "../state/application/application.slice";
 
 export interface IPersistConfig {
     key: string;
@@ -13,16 +14,18 @@ export interface IPersistConfig {
 
 export interface IReducer {
     [THEME_KEY]: ThemeState;
+    [APPLICATION_KEY]: ApplicationState
 }
 
 const persistConfig: PersistConfig<IReducer> = {
     key: 'root',
     storage,
-    whitelist: [THEME_KEY],
+    whitelist: [THEME_KEY, APPLICATION_KEY],
 };
 
 const reducers: Reducer<CombinedState<IReducer>> = combineReducers({
     [THEME_KEY]: themeReducer,
+    [APPLICATION_KEY]: applicationReducer
 });
 
 const persistedReducer: Reducer<IReducer & PersistPartial> = persistReducer(

@@ -32,13 +32,15 @@ describe('ProductController', () => {
       };
 
       jest
-        .spyOn(productService, 'getAllProducts')
+        .spyOn(productService, 'getAllProductsByResturantId')
         .mockImplementation(async () => response);
 
-      const result = await productController.getProductList(query);
+      const result = await productController.getProductListByResturantId(query);
 
       expect(result).toBe(response);
-      expect(productService.getAllProducts).toHaveBeenCalledWith(query);
+      expect(productService.getAllProductsByResturantId).toHaveBeenCalledWith(
+        query,
+      );
     });
   });
 });

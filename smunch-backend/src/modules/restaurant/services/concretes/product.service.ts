@@ -11,13 +11,13 @@ export class ProductService implements IProductService {
     private readonly _genericRepositoryService: GenericRepositoryService,
   ) {}
 
-  async getAllProducts(
+  async getAllProductsByResturantId(
     query: ProductListQuery,
   ): Promise<CommonQueryResponse<Product[]>> {
     const products = await this._genericRepositoryService.getMany<Product>(
       'Products',
-      '{}',
-      `{ ${query.SortedBy}: ${query.Order} }`,
+      `{ "ResturantId" :  "${query.ResturantId}" }`,
+      `{ "${query.SortedBy}": "${query.Order}" }`,
       query.Skip,
       query.Limit,
     );

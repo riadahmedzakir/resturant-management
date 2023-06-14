@@ -1,30 +1,37 @@
 import { Button, Card, CardContent, CardHeader, CardMedia, Checkbox, Chip, CircularProgress, Divider, FormControl, FormControlLabel, FormGroup, Grid, Radio, RadioGroup, Toolbar, Typography } from '@material-ui/core';
-import './Resturant.css'
-import { useEffect, useState } from 'react';
 import Rating from '@material-ui/lab/Rating';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ResturantFacade } from '../../data/services/resturant/resturant.facade';
 import { IResturantDto } from '../../constants/resturant.interface';
+import { ResturantFacade } from '../../data/services/resturant/resturant.facade';
+import './Resturant.css';
+import { useDispatch } from 'react-redux';
+import { SetResturants } from '../../data/state/application/application.actions';
+import { getRatingValue } from '../../data/util/util';
 
 function Resturant(): JSX.Element {
     const history = useNavigate();
+    const dispatch = useDispatch()
 
     const [sortState, setSortState] = useState('recom');
     const [priceFilterValue, setPriceFilterValue] = useState(new Set());
     const [cuisineFilterState, setCuisineFilterState] = useState({
-        Sandwiches: true,
-        Burgers: true,
-        FastFoods: true,
-        Chinese: true,
-        Indian: true
+        Sandwiches: false,
+        Burgers: false,
+        FastFoods: false,
+        Chinese: false,
+        Indian: false
     });
 
     useEffect(() => {
         ResturantFacade.getResturantListApi().then(response => {
-            setResturants(response.data?.SuccessResponse ?? []);
+            const resturants = response.data?.SuccessResponse ?? [];
+            setResturants(resturants);
             setLoading(false);
+
+            dispatch(SetResturants(resturants))
         })
-    }, []);
+    }, [dispatch]);
 
     const [resturants, setResturants] = useState<IResturantDto[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -48,13 +55,6 @@ function Resturant(): JSX.Element {
 
     const handleResturantSelection = (resturantId: string) => {
         history(`/resturants/${resturantId}`);
-    }
-
-    const getRatingValue = (rating: string) => {
-        if (!rating) { return 0; }
-        const valueFromString = rating.split("/")[0];
-        const result = parseInt(valueFromString);
-        return result;
     }
 
     return (

@@ -15,9 +15,9 @@ export class ProductController {
     description: 'Success',
     type: Array<Product>,
   })
-  async getProductList(
+  async getProductListByResturantId(
     @Query() query: ProductListQuery,
   ): Promise<CommonQueryResponse<Product[]>> {
-    return await this._productService.getAllProducts(query);
+    return await this._productService.getAllProductsByResturantId(query);
   }
 }

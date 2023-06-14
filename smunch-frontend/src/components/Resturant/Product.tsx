@@ -1,19 +1,48 @@
-import { Avatar, Button, Card, CardContent, CardHeader, CardMedia, Divider, Grid, Icon, IconButton, List, ListItem, ListItemAvatar, ListItemText, Toolbar, Typography } from "@material-ui/core"
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Avatar, Button, Card, CardContent, CardHeader, CardMedia, Divider, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import ProductModal from "./ProductModal";
-
 import RateReviewIcon from '@material-ui/icons/RateReview';
+import { isEqual } from "lodash";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { IResturantDto } from "../../constants/resturant.interface";
+import { getResturants } from "../../data/state/application/application.slice";
 import ReviewModal from "./ReviewModal";
+import { getRatingValue } from "../../data/util/util";
+import { ProductFacade } from "../../data/services/product/product.facade";
+import { IProductDto } from "../../constants/product.interface";
+import { SetProduct } from "../../data/state/application/application.actions";
+import { ReviewFacade } from "../../data/services/review/review.facade";
+import { IReviewDto } from "../../constants/review.interface";
 
 function Product(): JSX.Element {
-    const [reviews, setReviews] = useState([1, 2, 3, 4, 5]);
-    const [products, setProducts] = useState([1, 2, 3, 4, 5]);
+    const location = useLocation();
+    const dispatch = useDispatch();
+
+    const resturants = useSelector(getResturants, isEqual);
+
+    const [selectedResturant, setSelectedResturant] = useState<IResturantDto | undefined>();
+    const [reviews, setReviews] = useState<IReviewDto[]>();
+    const [products, setProducts] = useState<IProductDto[] | undefined>();
     const [openProductModal, setOpenProductModal] = useState(false);
 
     const [openReviewModal, setOpenReviewModal] = useState(false);
     const [reviewModalType, setReviewModalType] = useState<'Product' | 'Resturant'>('Resturant');
     const [reviewModalData, setReviewModalData] = useState("");
+
+    useEffect(() => {
+        const routes = location.pathname.split('/');
+        const resturantId = routes[routes.length - 1];
+
+        const selectedResturant = resturants.find(x => x._id === resturantId);
+        setSelectedResturant(selectedResturant);
+
+        getProducts(resturantId);
+        getReviews(resturantId);
+
+    }, [dispatch, location, resturants]);
 
     const handleProductOpen = () => {
         setOpenProductModal(true);
@@ -33,14 +62,40 @@ function Product(): JSX.Element {
         setOpenReviewModal(false);
     };
 
+    const getProducts = (resturantId: string) => {
+        ProductFacade.getProductListApi(resturantId).then(response => {
+            const products = response.data?.SuccessResponse;
+            setProducts(products)
+
+            dispatch(SetProduct(products))
+        });
+    }
+
+    const getReviews = (resturantId: string) => {
+        ReviewFacade.getResturantReviewListApi(resturantId).then(response => {
+            const reviews = response.data?.SuccessResponse;
+
+            setReviews(reviews);
+        });
+    }
+
 
     return (
         <Grid className="resturant-container" container justifyContent="space-between" direction="row">
 
             <Grid item xl={3} alignItems="center" style={{ display: "flex" }}>
                 <Card variant="outlined" style={{ height: '85vh', width: '100%' }}>
-                    <CardHeader style={{ padding: '12px' }} title="Resturant"
-                        subheader='1234' />
+                    <CardHeader style={{ padding: '12px' }}
+                        title={
+                            <Typography style={{ width: "98%" }} className='text-elipsis' variant='h5'>
+                                {selectedResturant?.Name}
+                            </Typography>
+                        }
+                        subheader={
+                            <Typography style={{ width: "98%" }} className='text-elipsis' variant='subtitle2'>
+                                {selectedResturant?.Cuisine.join(', ')}
+                            </Typography>
+                        } />
 
                     <CardMedia style={{ height: 0, paddingTop: '40%' }}
                         image="https://fakeimg.pl/600x400/b57070/909090"
@@ -48,12 +103,17 @@ function Product(): JSX.Element {
                     <CardContent>
                         <Grid container direction='row'>
                             <Grid item xl={12}>
+                                <Typography style={{ marginBottom: '20px' }} variant='subtitle2'>
+                                    {selectedResturant?.Description}
+                                </Typography>
+                            </Grid>
+                            <Grid item xl={12}>
                                 <Grid container justifyContent='space-between'>
                                     <Grid item xl={5}>
-                                        <Rating name="read-only" value={1} readOnly />
+                                        <Rating name="read-only" value={getRatingValue(selectedResturant?.Rating ?? "")} readOnly />
                                     </Grid>
                                     <Grid item xl={3} style={{ textAlign: "end" }}>
-                                        <p style={{ margin: "3px" }}>1/5 (42)</p>
+                                        <p style={{ margin: "3px" }}>{selectedResturant?.Rating ? selectedResturant.Rating : "N/A"}</p>
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -65,13 +125,13 @@ function Product(): JSX.Element {
                                     hour: "numeric",
                                     minute: "numeric",
                                     hour12: true
-                                }).format(new Date())}
+                                }).format(new Date(selectedResturant?.OpeningTime ?? "1970-01-01T00:00:00.000Z"))}
                                 &nbsp;-&nbsp;
                                 {new Intl.DateTimeFormat("en-GB", {
                                     hour: "numeric",
                                     minute: "numeric",
                                     hour12: true
-                                }).format(new Date())}
+                                }).format(new Date(selectedResturant?.ClosingTime ?? "1970-01-01T00:00:00.000Z"))}
                             </Grid>
                         </Grid>
                         <Divider style={{ marginTop: '15px', marginBottom: '20px' }} variant="middle" />
@@ -89,7 +149,7 @@ function Product(): JSX.Element {
 
                         <List>
                             {
-                                reviews.map(review =>
+                                reviews?.map(review =>
                                     <>
                                         <ListItem alignItems="flex-start">
                                             <ListItemAvatar>
@@ -118,24 +178,34 @@ function Product(): JSX.Element {
             <Grid item xl={9} style={{ padding: "0px 20px 0px 20px" }}>
                 <Grid container spacing={2}>
                     {
-                        products.map(product =>
-                            <Grid key={product} item xl={3}>
+                        products?.map(product =>
+                            <Grid key={product._id} item xl={3}>
                                 <Card variant="outlined">
-                                    <CardHeader style={{ padding: '12px' }} title="Item"
-                                        subheader="$ 125.00" />
+                                    <CardHeader style={{ padding: '12px' }}
+                                        title={
+                                            <Typography style={{ width: "98%" }} className='text-elipsis' variant='h5'>
+                                                {product.Name}
+                                            </Typography>
+                                        }
+                                        subheader={
+                                            <Typography style={{ width: "98%" }} className='text-elipsis' variant='subtitle2'>
+                                                $ {product.Price}
+                                            </Typography>
+                                        } />
 
-                                    <CardMedia style={{ height: 0, paddingTop: '40%' }}
+                                    <CardMedia style={{ height: 0, paddingTop: '45%' }}
                                         image="https://fakeimg.pl/600x400/b57070/909090"
                                         title="Image" />
+
                                     <CardContent>
                                         <Grid container direction='row'>
                                             <Grid item xl={12}>
                                                 <Grid container justifyContent='space-between'>
-                                                    <Grid item xl={5} style={{ display: "flex" }}>
-                                                        <Rating name="read-only" value={1} readOnly />
+                                                    <Grid item xl={5}>
+                                                        <Rating name="read-only" value={getRatingValue(product.Rating)} readOnly />
                                                     </Grid>
-                                                    <Grid item xl={3} style={{ display: "flex" }}>
-                                                        <p style={{ margin: "3px" }}>1/5 (42)</p>
+                                                    <Grid item xl={3} style={{ textAlign: "end" }}>
+                                                        <p style={{ margin: "3px" }}>{product.Rating ? product.Rating : 'N/A'}</p>
                                                     </Grid>
                                                 </Grid>
                                             </Grid>

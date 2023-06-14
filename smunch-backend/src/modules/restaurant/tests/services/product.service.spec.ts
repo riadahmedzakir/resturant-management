@@ -35,6 +35,7 @@ describe('ProductService', () => {
         Order: 0,
         Skip: 0,
         Limit: 0,
+        ResturantId: '',
       };
       const products: Product[] = [];
       const response: CommonQueryResponse<Product[]> = {
@@ -47,13 +48,13 @@ describe('ProductService', () => {
         .spyOn(genericRepositoryService, 'getMany')
         .mockResolvedValue(products);
 
-      const result = await productService.getAllProducts(query);
+      const result = await productService.getAllProductsByResturantId(query);
 
       expect(result).toEqual(response);
       expect(genericRepositoryService.getMany).toHaveBeenCalledWith(
         'Products',
-        '{}',
-        `{ ${query.SortedBy}: ${query.Order} }`,
+        `{ "ResturantId" :  "${query.ResturantId}" }`,
+        `{ "${query.SortedBy}": "${query.Order}" }`,
         query.Skip,
         query.Limit,
       );

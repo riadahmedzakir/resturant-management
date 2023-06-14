@@ -3,7 +3,7 @@ import { CommonQueryResponse } from '../../../../common/request-response/respons
 import { ProductListQuery } from '../../../../common/request-response/request/product/product.request.dto';
 
 interface IProductService {
-  getAllProducts: (
+  getAllProductsByResturantId: (
     query: ProductListQuery,
   ) => Promise<CommonQueryResponse<Product[]>>;
 }

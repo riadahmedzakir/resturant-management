@@ -1,5 +1,4 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { cloneDeep } from "lodash";
 
 export const THEME_KEY = 'theme';
 
