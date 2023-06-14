@@ -1,21 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Avatar, Button, Card, CardContent, CardHeader, CardMedia, CircularProgress, Divider, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@material-ui/core";
-import Rating from "@material-ui/lab/Rating";
-import { useEffect, useState } from "react";
-import ProductModal from "./ProductModal";
 import RateReviewIcon from '@material-ui/icons/RateReview';
+import Rating from "@material-ui/lab/Rating";
 import { isEqual } from "lodash";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { IResturantDto } from "../../constants/resturant.interface";
-import { getResturants } from "../../data/state/application/application.slice";
-import ReviewModal from "./ReviewModal";
-import { getRatingValue } from "../../data/util/util";
-import { ProductFacade } from "../../data/services/product/product.facade";
 import { IProductDto } from "../../constants/product.interface";
-import { SetProduct } from "../../data/state/application/application.actions";
-import { ReviewFacade } from "../../data/services/review/review.facade";
+import { IResturantDto } from "../../constants/resturant.interface";
 import { IReviewDto } from "../../constants/review.interface";
+import { ProductFacade } from "../../data/services/product/product.facade";
+import { ReviewFacade } from "../../data/services/review/review.facade";
+import { SetProduct } from "../../data/state/application/application.actions";
+import { getResturants } from "../../data/state/application/application.slice";
+import { getRatingValue } from "../../data/util/util";
+import EmptyReview from "./EmptyReview";
+import ProductModal from "./ProductModal";
+import ReviewModal from "./ReviewModal";
 
 function Product(): JSX.Element {
     const location = useLocation();
@@ -167,31 +168,33 @@ function Product(): JSX.Element {
                             reviewLoading ?
                                 <Grid item xl={12} justifyContent='center' style={{ display: "flex", height: "100%" }}>
                                     <CircularProgress style={{ margin: 'auto' }} size={50} />
-                                </Grid> :
-                                <List>
-                                    {
-                                        reviews?.map(review =>
-                                            <>
-                                                <ListItem alignItems="flex-start">
-                                                    <ListItemAvatar>
-                                                        <Avatar alt="Remy Sharp" />
-                                                    </ListItemAvatar>
-                                                    <ListItemText
-                                                        secondary={
-                                                            <>
-                                                                <Typography component="span" variant="body2" color="textPrimary">
-                                                                    Lorem ipsum dolor
-                                                                </Typography>
-                                                                {" — Lorem ipsum dolor sit amet, consectetur adipiscing elit…"}
-                                                            </>
-                                                        }
-                                                    />
-                                                </ListItem>
-                                                <Divider variant="middle" />
-                                            </>
-                                        )
-                                    }
-                                </List>
+                                </Grid>
+                                : reviews?.length ?
+                                    <List>
+                                        {
+                                            reviews?.map(review =>
+                                                <>
+                                                    <ListItem alignItems="flex-start">
+                                                        <ListItemAvatar>
+                                                            <Avatar alt="Remy Sharp" />
+                                                        </ListItemAvatar>
+                                                        <ListItemText
+                                                            secondary={
+                                                                <>
+                                                                    <Typography component="span" variant="body2" color="textPrimary">
+                                                                        Lorem ipsum dolor
+                                                                    </Typography>
+                                                                    {" — Lorem ipsum dolor sit amet, consectetur adipiscing elit…"}
+                                                                </>
+                                                            }
+                                                        />
+                                                    </ListItem>
+                                                    <Divider variant="middle" />
+                                                </>
+                                            )
+                                        }
+                                    </List>
+                                    : <EmptyReview fontSize="50px" message="No review Available" />
                         }
                     </CardContent>
                 </Card>

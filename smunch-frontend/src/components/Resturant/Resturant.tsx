@@ -188,7 +188,7 @@ function Resturant(): JSX.Element {
                                                             <Grid item xl={5}>
                                                                 <Rating name="read-only" value={getRatingValue(resturant.Rating)} readOnly />
                                                             </Grid>
-                                                            <Grid item xl={3} style={{ textAlign: "end" }}>
+                                                            <Grid item xl={4} style={{ textAlign: "end" }}>
                                                                 <p style={{ margin: "3px" }}>{resturant.Rating ? resturant.Rating : 'N/A'}</p>
                                                             </Grid>
                                                         </Grid>

@@ -7,6 +7,7 @@ import { IProductDto } from "../../constants/product.interface";
 import { IReviewDto } from "../../constants/review.interface";
 import { ReviewFacade } from "../../data/services/review/review.facade";
 import { getProducts } from "../../data/state/application/application.slice";
+import EmptyReview from "./EmptyReview";
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & { children?: React.ReactElement<any, any> },
@@ -83,30 +84,32 @@ function ProductModal(props: ProductModalProps): JSX.Element {
                         <Grid item xl={12} justifyContent='center' style={{ display: "flex", height: "100%" }}>
                             <CircularProgress style={{ margin: 'auto' }} size={50} />
                         </Grid> :
-                        <List>
-                            {
-                                reviews?.map(review =>
-                                    <>
-                                        <ListItem alignItems="flex-start">
-                                            <ListItemAvatar>
-                                                <Avatar alt="Riad Zakir" />
-                                            </ListItemAvatar>
-                                            <ListItemText
-                                                secondary={
-                                                    <>
-                                                        <Typography component="span" variant="body2" color="textPrimary">
-                                                            Lorem ipsum dolor
-                                                        </Typography>
-                                                        {" — Lorem ipsum dolor sit amet, consectetur adipiscing elit…"}
-                                                    </>
-                                                }
-                                            />
-                                        </ListItem>
-                                        <Divider variant="middle" />
-                                    </>
-                                )
-                            }
-                        </List>
+                        reviews?.length ?
+                            <List>
+                                {
+                                    reviews?.map(review =>
+                                        <>
+                                            <ListItem alignItems="flex-start">
+                                                <ListItemAvatar>
+                                                    <Avatar alt="Riad Zakir" />
+                                                </ListItemAvatar>
+                                                <ListItemText
+                                                    secondary={
+                                                        <>
+                                                            <Typography component="span" variant="body2" color="textPrimary">
+                                                                Lorem ipsum dolor
+                                                            </Typography>
+                                                            {" — Lorem ipsum dolor sit amet, consectetur adipiscing elit…"}
+                                                        </>
+                                                    }
+                                                />
+                                            </ListItem>
+                                            <Divider variant="middle" />
+                                        </>
+                                    )
+                                }
+                            </List>
+                            : <EmptyReview fontSize="50px" message="No review Available" />
                 }
             </DialogContent>
             <DialogActions>

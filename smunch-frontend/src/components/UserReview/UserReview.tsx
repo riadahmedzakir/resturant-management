@@ -8,6 +8,7 @@ import './UserReview.css';
 import { UserReviewResponse } from '../../constants/user-review.interface';
 import { ReviewFacade } from '../../data/services/review/review.facade';
 import { getUserId } from '../../data/util/util';
+import EmptyReview from '../Resturant/EmptyReview';
 
 function UserReview(): JSX.Element {
     const dispatch = useDispatch();
@@ -155,35 +156,37 @@ function UserReview(): JSX.Element {
                                     <Grid item xl={12} justifyContent='center' style={{ display: "flex", height: "100%" }}>
                                         <CircularProgress style={{ margin: 'auto' }} size={100} />
                                     </Grid> :
-                                    <List className='user-review-list'>
-                                        {
-                                            reviews?.ResturantReviews.map(review =>
-                                                <>
-                                                    <ListItem alignItems="flex-start">
-                                                        <ListItemAvatar>
-                                                            <Avatar alt="Riad Zakir" />
-                                                        </ListItemAvatar>
-                                                        <ListItemText
-                                                            primary={
-                                                                <Typography variant="body1" color="textPrimary">
-                                                                    Resturant
-                                                                </Typography>
-                                                            }
-                                                            secondary={
-                                                                <>
-                                                                    <Typography component="span" variant="body2" color="textPrimary">
-                                                                        Lorem ipsum dolor
+                                    reviews?.ResturantReviews.length ?
+                                        <List className='user-review-list'>
+                                            {
+                                                reviews?.ResturantReviews.map(review =>
+                                                    <>
+                                                        <ListItem alignItems="flex-start">
+                                                            <ListItemAvatar>
+                                                                <Avatar alt="Riad Zakir" />
+                                                            </ListItemAvatar>
+                                                            <ListItemText
+                                                                primary={
+                                                                    <Typography variant="body1" color="textPrimary">
+                                                                        Resturant
                                                                     </Typography>
-                                                                    {" — Lorem ipsum dolor sit amet, consectetur adipiscing elit…"}
-                                                                </>
-                                                            }
-                                                        />
-                                                    </ListItem>
-                                                    <Divider variant="middle" />
-                                                </>
-                                            )
-                                        }
-                                    </List>
+                                                                }
+                                                                secondary={
+                                                                    <>
+                                                                        <Typography component="span" variant="body2" color="textPrimary">
+                                                                            Lorem ipsum dolor
+                                                                        </Typography>
+                                                                        {" — Lorem ipsum dolor sit amet, consectetur adipiscing elit…"}
+                                                                    </>
+                                                                }
+                                                            />
+                                                        </ListItem>
+                                                        <Divider variant="middle" />
+                                                    </>
+                                                )
+                                            }
+                                        </List>
+                                        : <EmptyReview fontSize="50px" message="You have not reviewed any resturant" />
                             }
                         </Grid>
 
@@ -195,35 +198,37 @@ function UserReview(): JSX.Element {
                                     <Grid item xl={12} justifyContent='center' style={{ display: "flex", height: "100%" }}>
                                         <CircularProgress style={{ margin: 'auto' }} size={100} />
                                     </Grid> :
-                                    <List className='user-review-list'>
-                                        {
-                                            reviews?.ProductReviews.map(review =>
-                                                <>
-                                                    <ListItem alignItems="flex-start">
-                                                        <ListItemAvatar>
-                                                            <Avatar alt="Riad Zakir" />
-                                                        </ListItemAvatar>
-                                                        <ListItemText
-                                                            primary={
-                                                                <Typography variant="body1" color="textPrimary">
-                                                                    Product
-                                                                </Typography>
-                                                            }
-                                                            secondary={
-                                                                <>
-                                                                    <Typography component="span" variant="body2" color="textPrimary">
-                                                                        Lorem ipsum dolor
+                                    reviews?.ProductReviews.length ?
+                                        <List className='user-review-list'>
+                                            {
+                                                reviews?.ProductReviews.map(review =>
+                                                    <>
+                                                        <ListItem alignItems="flex-start">
+                                                            <ListItemAvatar>
+                                                                <Avatar alt="Riad Zakir" />
+                                                            </ListItemAvatar>
+                                                            <ListItemText
+                                                                primary={
+                                                                    <Typography variant="body1" color="textPrimary">
+                                                                        Product
                                                                     </Typography>
-                                                                    {" — Lorem ipsum dolor sit amet, consectetur adipiscing elit…"}
-                                                                </>
-                                                            }
-                                                        />
-                                                    </ListItem>
-                                                    <Divider variant="middle" />
-                                                </>
-                                            )
-                                        }
-                                    </List>
+                                                                }
+                                                                secondary={
+                                                                    <>
+                                                                        <Typography component="span" variant="body2" color="textPrimary">
+                                                                            Lorem ipsum dolor
+                                                                        </Typography>
+                                                                        {" — Lorem ipsum dolor sit amet, consectetur adipiscing elit…"}
+                                                                    </>
+                                                                }
+                                                            />
+                                                        </ListItem>
+                                                        <Divider variant="middle" />
+                                                    </>
+                                                )
+                                            }
+                                        </List>
+                                        : <EmptyReview fontSize="50px" message="You have not reviewed any products" />
                             }
                         </Grid>
                     </Grid>
