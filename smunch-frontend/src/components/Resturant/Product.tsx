@@ -33,7 +33,7 @@ function Product(): JSX.Element {
 
     const [openReviewModal, setOpenReviewModal] = useState(false);
     const [reviewModalType, setReviewModalType] = useState<'Product' | 'Resturant'>('Resturant');
-    const [reviewModalData, setReviewModalData] = useState("");
+    const [reviewModalData, setReviewModalData] = useState<IProductDto | IResturantDto | undefined>();
 
     useEffect(() => {
         const routes = location.pathname.split('/');
@@ -42,8 +42,10 @@ function Product(): JSX.Element {
         const selectedResturant = resturants.find(x => x._id === resturantId);
         setSelectedResturant(selectedResturant);
 
-        getProducts(resturantId);
-        getReviews(resturantId);
+        if (resturantId) {
+            getProducts(resturantId);
+            getReviews(resturantId);
+        }
 
     }, [dispatch, location, resturants]);
 
@@ -56,7 +58,7 @@ function Product(): JSX.Element {
         setOpenProductModal(false);
     };
 
-    const handleReviewOpen = (type: 'Product' | 'Resturant', data: any) => {
+    const handleReviewOpen = (type: 'Product' | 'Resturant', data: IProductDto | IResturantDto | undefined) => {
         setReviewModalType(type);
         setReviewModalData(data);
         setOpenReviewModal(true);
@@ -147,7 +149,7 @@ function Product(): JSX.Element {
                                 <Typography variant='h5'>Reviews</Typography>
                             </Grid>
                             <Grid item xl={4} justifyContent="flex-end" style={{ display: "flex" }}>
-                                <IconButton color="primary" aria-label="review" onClick={() => { handleReviewOpen("Resturant", "Test") }}>
+                                <IconButton color="primary" aria-label="review" onClick={() => { handleReviewOpen("Resturant", selectedResturant) }}>
                                     <RateReviewIcon />
                                 </IconButton>
                             </Grid>
@@ -229,7 +231,7 @@ function Product(): JSX.Element {
                                                     <Button fullWidth variant="contained" color="primary" onClick={() => handleProductOpen(product._id)}>
                                                         Check Out
                                                     </Button>
-                                                    <Button style={{ marginTop: '10px' }} fullWidth variant="outlined" color="primary" onClick={() => { handleReviewOpen("Product", "Test") }}>
+                                                    <Button style={{ marginTop: '10px' }} fullWidth variant="outlined" color="primary" onClick={() => { handleReviewOpen("Product", product) }}>
                                                         Review Product
                                                     </Button>
                                                 </Grid>

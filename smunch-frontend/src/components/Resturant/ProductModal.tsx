@@ -34,11 +34,13 @@ function ProductModal(props: ProductModalProps): JSX.Element {
         const selectedResturant = products.find(x => x._id === productId);
         setSelectedProduct(selectedResturant);
 
-        ReviewFacade.getProductReviewListApi(productId).then(response => {
-            const reviews = response.data?.SuccessResponse;
-            setReviews(reviews);
-            setLoading(false);
-        })
+        if (productId) {
+            ReviewFacade.getProductReviewListApi(productId).then(response => {
+                const reviews = response.data?.SuccessResponse;
+                setReviews(reviews);
+                setLoading(false);
+            });
+        }
 
     }, [products, productId]);
 
