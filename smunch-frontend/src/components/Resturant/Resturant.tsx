@@ -61,8 +61,8 @@ function Resturant(): JSX.Element {
     return (
         <Grid className="resturant-container" container justifyContent="space-between" direction="row">
 
-            <Grid item xl={3} style={{ display: "flex" }}>
-                <Card variant="outlined" style={{ height: '85vh', width: '100%' }}>
+            <Grid item xs={12} sm={12} md={3} lg={3} xl={3} style={{ display: "flex" }}>
+                <Card variant="outlined" className='filter-container'>
                     <Toolbar>
                         <Typography variant='h5'>Filter</Typography>
                     </Toolbar>
@@ -155,16 +155,16 @@ function Resturant(): JSX.Element {
                 </Card>
             </Grid>
 
-            <Grid item xl={9} style={{ padding: "0px 20px 0px 20px" }}>
+            <Grid item xs={12} sm={12} md={9} lg={9} xl={9} className='resturant-item-container'>
                 {
                     <Grid container spacing={2} style={{ height: '100%' }}>
                         {
                             loading ?
-                                <Grid item xl={12} justifyContent='center' style={{ display: "flex", height: "100%" }}>
+                                <Grid item xs={12} sm={12} md={12} lg={12} xl={12} justifyContent='center' style={{ display: "flex", height: "100%" }}>
                                     <CircularProgress style={{ margin: 'auto' }} size={100} />
                                 </Grid> :
                                 resturants.map(resturant =>
-                                    <Grid key={resturant._id} item xl={3}>
+                                    <Grid key={resturant._id} item xs={12} sm={12} md={12} lg={4} xl={3}>
                                         <Card variant="outlined">
                                             <CardHeader style={{ padding: '12px' }}
                                                 title={
@@ -183,7 +183,7 @@ function Resturant(): JSX.Element {
                                                 title="Image" />
                                             <CardContent>
                                                 <Grid container direction='row'>
-                                                    <Grid item xl={12}>
+                                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                                         <Grid container justifyContent='space-between'>
                                                             <Grid item xl={5}>
                                                                 <Rating name="read-only" value={getRatingValue(resturant.Rating)} readOnly />
@@ -209,7 +209,7 @@ function Resturant(): JSX.Element {
                                                             }).format(new Date(resturant.ClosingTime))}
                                                         </Grid>
                                                     </Grid>
-                                                    <Grid item xl={12} style={{ marginTop: '20px' }}>
+                                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{ marginTop: '20px' }}>
                                                         <Button fullWidth variant="outlined" color="primary" onClick={() => { handleResturantSelection(resturant._id) }}>
                                                             Check Out
                                                         </Button>
@@ -223,7 +223,7 @@ function Resturant(): JSX.Element {
                     </Grid>
                 }
             </Grid>
-        </Grid>
+        </Grid >
     );
 }
 

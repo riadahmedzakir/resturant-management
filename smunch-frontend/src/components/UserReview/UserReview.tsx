@@ -50,14 +50,14 @@ function UserReview(): JSX.Element {
                         title="Image" />
                     <CardContent>
                         <Grid container direction='row'>
-                            <Grid item xl={12} justifyContent='center' style={{ display: "flex" }}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12} justifyContent='center' style={{ display: "flex" }}>
                                 <Typography variant='h5'>Riad Ahmed Zakir</Typography>
                             </Grid>
                         </Grid>
                         <Divider style={{ marginTop: '15px', marginBottom: '20px' }} variant="middle" />
 
                         <Grid container direction='row'>
-                            <Grid item xl={12}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <Grid container justifyContent='space-between'>
                                     <Grid item xl={3}>
                                         <Typography variant='body1'>Email</Typography>
@@ -99,7 +99,7 @@ function UserReview(): JSX.Element {
                         <Divider style={{ marginTop: '15px', marginBottom: '20px' }} variant="middle" />
 
                         <Grid container direction='row'>
-                            <Grid item xl={12}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <Grid container justifyContent='space-between'>
                                     <Grid item xl={5}>
                                         <Typography variant='body1'>Sms Alert</Typography>
@@ -110,7 +110,7 @@ function UserReview(): JSX.Element {
                                 </Grid>
                             </Grid>
 
-                            <Grid item xl={12}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <Grid container justifyContent='space-between'>
                                     <Grid item xl={5}>
                                         <Typography variant='body1'>2FA Authentication</Typography>
@@ -124,7 +124,7 @@ function UserReview(): JSX.Element {
                         <Divider style={{ marginTop: '15px', marginBottom: '20px' }} variant="middle" />
 
                         <Grid container direction='row'>
-                            <Grid item xl={12}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <Grid container justifyContent='space-between'>
                                     <Grid item xl={5}>
                                         <Typography variant='body1'>Dark Mode</Typography>
@@ -144,12 +144,12 @@ function UserReview(): JSX.Element {
                 <Paper variant='outlined' style={{ height: "100%" }}>
                     <Grid style={{ height: "100%", padding: '20px' }} container direction='column'>
                         <Grid style={{ height: "10%" }} item>
-                            <Typography variant='h4'>My Reviews History</Typography>
+                            <Typography className="my-review-header" variant='h4'>My Reviews History</Typography>
                             <Divider style={{ marginTop: '15px' }} variant="middle" />
                         </Grid>
 
                         <Grid style={{ height: "45%" }} item>
-                            <Typography variant='h5'>Resturant Reviews</Typography>
+                            <Typography className="my-review-sub-header" variant='h5'>Resturant Reviews</Typography>
 
                             {
                                 loading ?
@@ -176,7 +176,7 @@ function UserReview(): JSX.Element {
                                                                         <Typography component="span" variant="body2" color="textPrimary">
                                                                             Lorem ipsum dolor
                                                                         </Typography>
-                                                                        {" — Lorem ipsum dolor sit amet, consectetur adipiscing elit…"}
+                                                                        {` — ${review.Comment}`}
                                                                     </>
                                                                 }
                                                             />
@@ -191,7 +191,7 @@ function UserReview(): JSX.Element {
                         </Grid>
 
                         <Grid style={{ height: "45%" }} item>
-                            <Typography variant='h5'>Products Reviews</Typography>
+                            <Typography className="my-review-sub-header" variant='h5'>Products Reviews</Typography>
 
                             {
                                 loading ?
@@ -218,7 +218,7 @@ function UserReview(): JSX.Element {
                                                                         <Typography component="span" variant="body2" color="textPrimary">
                                                                             Lorem ipsum dolor
                                                                         </Typography>
-                                                                        {" — Lorem ipsum dolor sit amet, consectetur adipiscing elit…"}
+                                                                        {` — ${review.Comment}`}
                                                                     </>
                                                                 }
                                                             />

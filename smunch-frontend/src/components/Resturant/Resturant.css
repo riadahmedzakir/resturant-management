@@ -2,6 +2,15 @@
     padding: 34px 20px 34px 20px;
 }
 
+.resturant-item-container {
+    padding: 0px 20px 0px 20px;
+}
+
+.filter-container {
+    height: 85vh;
+    width: 100%;
+}
+
 .product-modal-body {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -9,4 +18,33 @@
 
 .product-modal-body::-webkit-scrollbar {
     display: none;
+}
+
+.resturant-details-container {
+    padding: 0px 20px 0px 20px;
+}
+
+.product-item-container {
+    padding: 0px 20px 0px 20px;
+}
+
+@media only screen and (max-width: 480px) {
+    .resturant-container {
+        padding: 16px;
+    }
+    .resturant-item-container {
+        padding: 20px 0px 0px 0px;
+    }
+
+    .filter-container {
+        height: 65vh;
+    }
+
+    .resturant-details-container {
+        padding: 0px 20px 0px 20px;
+    }
+
+    .product-item-container {
+        padding: 20px 0px 0px 0px;
+    }
 }

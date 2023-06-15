@@ -100,7 +100,7 @@ function Product(): JSX.Element {
     return (
         <Grid className="resturant-container" container justifyContent="space-between" direction="row">
 
-            <Grid item xl={3} alignItems="center" style={{ display: "flex" }}>
+            <Grid item xs={12} sm={12} md={3} lg={3} xl={3} alignItems="center" style={{ display: "flex" }}>
                 <Card variant="outlined" style={{ height: '85vh', width: '100%' }}>
                     <CardHeader style={{ padding: '12px' }}
                         title={
@@ -119,12 +119,12 @@ function Product(): JSX.Element {
                         title="Image" />
                     <CardContent>
                         <Grid container direction='row'>
-                            <Grid item xl={12}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <Typography style={{ marginBottom: '20px' }} variant='subtitle2'>
                                     {selectedResturant?.Description}
                                 </Typography>
                             </Grid>
-                            <Grid item xl={12}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <Grid container justifyContent='space-between'>
                                     <Grid item xl={5}>
                                         <Rating name="read-only" value={getRatingValue(selectedResturant?.Rating ?? "")} readOnly />
@@ -184,7 +184,7 @@ function Product(): JSX.Element {
                                                                     <Typography component="span" variant="body2" color="textPrimary">
                                                                         Lorem ipsum dolor
                                                                     </Typography>
-                                                                    {" — Lorem ipsum dolor sit amet, consectetur adipiscing elit…"}
+                                                                    {` — ${review.Comment}`}
                                                                 </>
                                                             }
                                                         />
@@ -200,11 +200,11 @@ function Product(): JSX.Element {
                 </Card>
             </Grid>
 
-            <Grid item xl={9} style={{ padding: "0px 20px 0px 20px" }}>
+            <Grid item xs={12} sm={12} md={9} lg={9} xl={9} className="product-item-container">
                 <Grid container spacing={2} style={{ height: '100%' }}>
                     {
                         productLoading ?
-                            <Grid item xl={12} justifyContent='center' style={{ display: "flex", height: "100%" }}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12} justifyContent='center' style={{ display: "flex", height: "100%" }}>
                                 <CircularProgress style={{ margin: 'auto' }} size={100} />
                             </Grid> :
                             products?.map(product =>
@@ -228,7 +228,7 @@ function Product(): JSX.Element {
 
                                         <CardContent>
                                             <Grid container direction='row'>
-                                                <Grid item xl={12}>
+                                                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                                     <Grid container justifyContent='space-between'>
                                                         <Grid item xl={5}>
                                                             <Rating name="read-only" value={getRatingValue(product.Rating)} readOnly />
@@ -238,7 +238,7 @@ function Product(): JSX.Element {
                                                         </Grid>
                                                     </Grid>
                                                 </Grid>
-                                                <Grid item xl={12} style={{ marginTop: '20px' }}>
+                                                <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{ marginTop: '20px' }}>
                                                     <Button fullWidth variant="contained" color="primary" onClick={() => handleProductOpen(product._id)}>
                                                         Check Out
                                                     </Button>

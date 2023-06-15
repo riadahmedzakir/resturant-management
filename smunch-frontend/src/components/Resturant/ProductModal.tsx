@@ -53,10 +53,10 @@ function ProductModal(props: ProductModalProps): JSX.Element {
         >
             <DialogTitle>
                 <Grid container>
-                    <Grid item xl={12}>
+                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                         <Typography variant="h4">{selectedProduct?.Name}</Typography>
                     </Grid>
-                    <Grid item xl={12}>
+                    <Grid item  xs={12} sm={12} md={12} lg={12} xl={12}>
                         <Grid container justifyContent="space-between">
                             <Grid item xl={4}>
                                 <Typography variant="body1">$ {selectedProduct?.Price}</Typography>
@@ -99,7 +99,7 @@ function ProductModal(props: ProductModalProps): JSX.Element {
                                                             <Typography component="span" variant="body2" color="textPrimary">
                                                                 Lorem ipsum dolor
                                                             </Typography>
-                                                            {" — Lorem ipsum dolor sit amet, consectetur adipiscing elit…"}
+                                                            {` — ${review.Comment}`}
                                                         </>
                                                     }
                                                 />

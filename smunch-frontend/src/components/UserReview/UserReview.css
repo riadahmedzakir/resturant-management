@@ -12,3 +12,21 @@
 .user-review-list::-webkit-scrollbar {
     display: none;
 }
+
+@media only screen and (max-width: 480px) {
+    .user-review-container {
+        padding: 20px 0px 0px 0px;
+    }
+
+    .my-review-header {
+        font-size: 26px !important;
+    }
+
+    .my-review-sub-header {
+        font-size: 20px !important;
+    }
+
+    .user-review-list {
+        max-height: 180px;
+    }
+}
