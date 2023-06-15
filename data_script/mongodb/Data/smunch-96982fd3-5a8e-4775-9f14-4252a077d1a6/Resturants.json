@@ -1,0 +1,147 @@
+{
+    "_id": "78bec19b-2557-4198-ba0c-567f2b7bf289",
+    "Name": "Stoltenberg-Johns",
+    "Description": "a ipsum integer a nibh in quis justo maecenas rhoncus aliquam lacus morbi quis tortor id",
+    "OpeningTime": "2022-06-24T09:00:00.000Z",
+    "ClosingTime": "2023-01-18T22:00:00.000Z",
+    "Cuisine": [
+        "Sandwiches",
+        "FastFoods"
+    ],
+    "Rating": ""
+}
+
+{
+    "_id": "38ca1aea-d3da-4992-903e-6e7a3d21b70c",
+    "Name": "Renner-Connelly",
+    "Description": "tellus nisi eu orci mauris lacinia sapien quis libero nullam sit amet turpis elementum ligula vehicula consequat morbi a ipsum",
+    "OpeningTime": "2022-06-24T09:00:00.000Z",
+    "ClosingTime": "2023-01-18T22:00:00.000Z",
+    "Cuisine": [
+        "Sandwiches",
+        "Burgers",
+        "FastFoods",
+        "Chinese",
+        "Indian"
+    ],
+    "Rating": ""
+}
+
+{
+    "_id": "f3f75d30-076d-4077-a065-c9041c43d3c7",
+    "Name": "Johns-Hettinger",
+    "Description": "quis turpis sed ante vivamus tortor duis mattis egestas metus aenean fermentum donec",
+    "OpeningTime": "2022-06-24T09:00:00.000Z",
+    "ClosingTime": "2023-01-18T22:00:00.000Z",
+    "Cuisine": [
+        "Sandwiches",
+        "Burgers",
+        "FastFoods",
+        "Chinese",
+        "Indian"
+    ],
+    "Rating": ""
+}
+
+{
+    "_id": "1c8fbb1f-c13e-4a2a-a0e7-4259d87cafd9",
+    "Name": "Veum Inc",
+    "Description": "morbi vestibulum velit id pretium iaculis diam erat fermentum justo nec condimentum neque sapien placerat ante",
+    "OpeningTime": "2022-06-24T09:00:00.000Z",
+    "ClosingTime": "2023-01-18T22:00:00.000Z",
+    "Cuisine": [
+        "Sandwiches",
+        "Burgers",
+        "FastFoods"
+    ],
+    "Rating": "4.0/5.0 (2)"
+}
+
+{
+    "_id": "86bd19c3-28b7-4803-9bd4-1880fecda267",
+    "Name": "Ratke, Jaskolski and Kshlerin",
+    "Description": "fusce lacus purus aliquet at feugiat non pretium quis lectus suspendisse potenti in eleifend quam a odio in hac",
+    "OpeningTime": "2022-06-24T09:00:00.000Z",
+    "ClosingTime": "2023-01-18T22:00:00.000Z",
+    "Cuisine": [
+        "FastFoods",
+        "Chinese",
+        "Indian"
+    ],
+    "Rating": ""
+}
+
+{
+    "_id": "c6fc8505-2bca-4b5d-8b54-2b397cc1e2c2",
+    "Name": "Ward, Ondricka and Prosacco",
+    "Description": "at velit eu est congue elementum in hac habitasse platea",
+    "OpeningTime": "2022-06-24T09:00:00.000Z",
+    "ClosingTime": "2023-01-18T22:00:00.000Z",
+    "Cuisine": [
+        "Sandwiches",
+        "Burgers",
+        "FastFoods",
+        "Chinese",
+        "Indian"
+    ],
+    "Rating": ""
+}
+
+{
+    "_id": "af89e853-d4d7-4e30-b7a5-530c892e0026",
+    "Name": "Leffler-Medhurst",
+    "Description": "rhoncus mauris enim leo rhoncus sed vestibulum sit amet cursus id turpis integer aliquet massa",
+    "OpeningTime": "2022-06-24T09:00:00.000Z",
+    "ClosingTime": "2023-01-18T22:00:00.000Z",
+    "Cuisine": [
+        "Sandwiches",
+        "Burgers",
+        "FastFoods",
+        "Chinese",
+        "Indian"
+    ],
+    "Rating": ""
+}
+
+{
+    "_id": "26007415-8a56-4b1b-b0cd-d95abb50fd02",
+    "Name": "Mosciski-Murazik",
+    "Description": "semper rutrum nulla nunc purus phasellus in felis donec semper",
+    "OpeningTime": "2022-06-24T09:00:00.000Z",
+    "ClosingTime": "2023-01-18T22:00:00.000Z",
+    "Cuisine": [
+        "Sandwiches",
+        "Burgers"
+    ],
+    "Rating": ""
+}
+
+{
+    "_id": "a6c89e32-6d86-497d-9382-93c25102da05",
+    "Name": "Jakubowski-Kuhlman",
+    "Description": "sed vestibulum sit amet cursus id turpis integer aliquet massa id lobortis convallis tortor risus dapibus",
+    "OpeningTime": "2022-06-24T09:00:00.000Z",
+    "ClosingTime": "2023-01-18T22:00:00.000Z",
+    "Cuisine": [
+        "Sandwiches",
+        "Burgers",
+        "FastFoods",
+        "Chinese",
+        "Indian"
+    ],
+    "Rating": ""
+}
+
+{
+    "_id": "b00e0ea9-fc3a-4036-878d-bc000e50fa47",
+    "Name": "Kshlerin and Sons",
+    "Description": "est quam pharetra magna ac consequat metus sapien ut nunc vestibulum ante ipsum primis",
+    "OpeningTime": "2022-06-24T09:00:00.000Z",
+    "ClosingTime": "2023-01-18T22:00:00.000Z",
+    "Cuisine": [
+        "Burgers",
+        "Chinese",
+        "Indian"
+    ],
+    "Rating": ""
+}

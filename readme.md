@@ -9,6 +9,8 @@ review and the average rating, if they exist.
 ## Choice of tech stack
 `Frontend` - React With Material-UI, react-router-dom
 
+`Frontend-Testing` - Jest for unit test, Cypress for e2e (Not implemented yet)
+
 `Backend` - Nestjs
 
 `Backend-Testing` - Jest + @nestjs/testing
@@ -20,3 +22,8 @@ review and the average rating, if they exist.
 A simple ER-Diagram for a simple task
 
 <img src="assets/er-diagram.png">
+
+## Adding test data
+
+1. With mongo locally installed -> run importScript.sh 
+2. The script should add Resturants and Products for the application
