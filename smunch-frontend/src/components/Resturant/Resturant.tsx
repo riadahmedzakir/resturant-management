@@ -1,23 +1,24 @@
-import { Button, Card, CardContent, CardHeader, CardMedia, Checkbox, Chip, CircularProgress, Divider, FormControl, FormControlLabel, FormGroup, Grid, Radio, RadioGroup, Toolbar, Typography } from '@material-ui/core';
+import { Button, Card, CardContent, CardHeader, CardMedia, Checkbox, Chip, Divider, FormControl, FormControlLabel, FormGroup, Grid, Radio, RadioGroup, Toolbar, Typography } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { IResturantDto } from '../../constants/resturant.interface';
-import { ResturantFacade } from '../../data/services/resturant/resturant.facade';
-import './Resturant.css';
 import { useDispatch } from 'react-redux';
+import { useLoaderData, useNavigate, useNavigation, useSearchParams } from 'react-router-dom';
+import { CircleLoader } from 'react-spinners';
+import { IResturantDto } from '../../constants/resturant.interface';
 import { SetResturants } from '../../data/state/application/application.actions';
 import { getRatingValue } from '../../data/util/util';
+import './Resturant.css';
 
 function Resturant(): JSX.Element {
     const history = useNavigate();
-    const dispatch = useDispatch()
+    const navigation = useNavigation();
+    const resturants = useLoaderData() as IResturantDto[];
+    const dispatch = useDispatch();
+    let [searchParams, setSearchParams] = useSearchParams();
 
-    const [loading, setLoading] = useState<boolean>(true);
-    const [resturants, setResturants] = useState<IResturantDto[]>([]);
     const [sortState, setSortState] = useState('recom');
     const [priceFilterValue, setPriceFilterValue] = useState(new Set());
-    const [cuisineFilterState, setCuisineFilterState] = useState({
+    const [cuisineFilterState, setCuisineFilterState] = useState<Record<string, boolean>>({
         Sandwiches: false,
         Burgers: false,
         FastFoods: false,
@@ -26,19 +27,17 @@ function Resturant(): JSX.Element {
     });
 
     useEffect(() => {
-        ResturantFacade.getResturantListApi().then(response => {
-            const resturants = response.data?.SuccessResponse ?? [];
-            setResturants(resturants);
-            setLoading(false);
-
-            dispatch(SetResturants(resturants))
-        })
-    }, [dispatch]);
+        if (resturants) {
+            dispatch(SetResturants(resturants));
+        }
+    }, [dispatch, resturants]);
 
 
 
-    const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSortState((event.target as HTMLInputElement).value);
+    const handleSortChange = (event: any) => {
+        setSortState(event.target.value);
+        let params = getFilterParams('sort', event.target.value);
+        setSearchParams(params);
     };
 
     const handlePriceChange = (id: string) => {
@@ -48,14 +47,38 @@ function Resturant(): JSX.Element {
         else { newSet.add(id); }
 
         setPriceFilterValue(newSet);
+
+        const values = Array.from(newSet).join(',');
+        const params = getFilterParams('budget', values);
+        setSearchParams(params);
     };
 
     const handleCuisineChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setCuisineFilterState({ ...cuisineFilterState, [event.target.name]: event.target.checked });
+        const state = { ...cuisineFilterState, [event.target.name]: event.target.checked };
+        setCuisineFilterState(state);
+
+        const values = Object.keys(state)
+            .filter((key) => state[key] === true)
+            .join(',');
+
+        const params = getFilterParams('cuisine', values);
+        setSearchParams(params);
     };
 
     const handleResturantSelection = (resturantId: string) => {
         history(`/resturants/${resturantId}`);
+    }
+
+    const getFilterParams = (a: 'sort' | 'budget' | 'cuisine', b: string): any => {
+        const params = {
+            'sort': searchParams.get('sort') ?? '',
+            'budget': searchParams.get('budget') ?? '',
+            'cuisine': searchParams.get('cuisine') ?? '',
+        };
+
+        params[a] = b;
+
+        return params;
     }
 
     return (
@@ -159,9 +182,11 @@ function Resturant(): JSX.Element {
                 {
                     <Grid container spacing={2} style={{ height: '100%' }}>
                         {
-                            loading ?
+                            navigation.state === 'loading' ?
                                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12} justifyContent='center' style={{ display: "flex", height: "100%" }}>
-                                    <CircularProgress style={{ margin: 'auto' }} size={100} />
+                                    <div style={{ margin: 'auto' }}>
+                                        <CircleLoader size={100} color="#27085c" />
+                                    </div>
                                 </Grid> :
                                 resturants.map(resturant =>
                                     <Grid key={resturant._id} item xs={12} sm={12} md={12} lg={4} xl={3}>

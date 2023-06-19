@@ -1,13 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
-import ErrorPage from "../components/Error/Error";
-import Root from "../components/Root/Root";
-import Home from "../components/Home/Home";
-import Resturant from "../components/Resturant/Resturant";
 import About from "../components/About/About";
 import Contact from "../components/Contact/Contact";
-import UserReview from "../components/UserReview/UserReview";
-import ResturantContainer from "../components/Resturant/ResturantContainer";
+import ErrorPage from "../components/Error/Error";
+import Home from "../components/Home/Home";
 import Product from "../components/Resturant/Product";
+import Resturant from "../components/Resturant/Resturant";
+import ResturantContainer from "../components/Resturant/ResturantContainer";
+import Root from "../components/Root/Root";
+import UserReview from "../components/UserReview/UserReview";
+import { ResturantDataFacade } from "../data/services/resturant/resturant.data.facade";
 
 const router = createBrowserRouter([
   {
@@ -23,12 +24,13 @@ const router = createBrowserRouter([
       {
         path: "/resturants",
         element: <ResturantContainer />,
-        errorElement: <ErrorPage />,
+        errorElement: <ErrorPage />,        
         children: [
           {
             path: "/resturants",
             element: <Resturant />,
             errorElement: <ErrorPage />,
+            loader: ResturantDataFacade.getResturantList,
           },
           {
             path: "/resturants/:id",
