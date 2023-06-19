@@ -9,6 +9,7 @@ import ResturantContainer from "../components/Resturant/ResturantContainer";
 import Root from "../components/Root/Root";
 import UserReview from "../components/UserReview/UserReview";
 import { ResturantDataFacade } from "../data/services/resturant/resturant.data.facade";
+import { ProductDataFacade } from "../data/services/product/product.data.facade";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
             path: "/resturants/:id",
             element: <Product />,
             errorElement: <ErrorPage />,
+            loader: ProductDataFacade.getProductList
           },
         ]
       },

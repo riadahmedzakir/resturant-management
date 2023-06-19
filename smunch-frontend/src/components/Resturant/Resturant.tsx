@@ -10,11 +10,11 @@ import { getRatingValue } from '../../data/util/util';
 import './Resturant.css';
 
 function Resturant(): JSX.Element {
+    const resturants = useLoaderData() as IResturantDto[];
     const history = useNavigate();
     const navigation = useNavigation();
-    const resturants = useLoaderData() as IResturantDto[];
     const dispatch = useDispatch();
-    let [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const [sortState, setSortState] = useState('recom');
     const [priceFilterValue, setPriceFilterValue] = useState(new Set());

@@ -5,12 +5,10 @@ import Rating from "@material-ui/lab/Rating";
 import { isEqual } from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLoaderData, useLocation, useNavigation, useRevalidator } from "react-router-dom";
 import { IProductDto } from "../../constants/product.interface";
 import { IResturantDto } from "../../constants/resturant.interface";
 import { IReviewDto } from "../../constants/review.interface";
-import { ProductFacade } from "../../data/services/product/product.facade";
-import { ReviewFacade } from "../../data/services/review/review.facade";
 import { SetProduct } from "../../data/state/application/application.actions";
 import { getResturants } from "../../data/state/application/application.slice";
 import { getRatingValue } from "../../data/util/util";
@@ -19,18 +17,17 @@ import ProductModal from "./ProductModal";
 import ReviewModal from "./ReviewModal";
 
 function Product(): JSX.Element {
+    const { products, reviews } = useLoaderData() as { products: IProductDto[], reviews: IReviewDto[] };
     const location = useLocation();
     const dispatch = useDispatch();
+    const revalidator = useRevalidator();
+    const navigation = useNavigation();
 
     const resturants = useSelector(getResturants, isEqual);
 
     const [selectedResturant, setSelectedResturant] = useState<IResturantDto | undefined>();
     const [selectedProductId, setSelectedProductId] = useState<string>("");
-    const [reviews, setReviews] = useState<IReviewDto[]>();
-    const [products, setProducts] = useState<IProductDto[] | undefined>();
     const [openProductModal, setOpenProductModal] = useState(false);
-    const [productLoading, setProductLoading] = useState(true);
-    const [reviewLoading, setReviewLoading] = useState(true);
 
     const [openReviewModal, setOpenReviewModal] = useState(false);
     const [reviewModalType, setReviewModalType] = useState<'Product' | 'Resturant'>('Resturant');
@@ -42,13 +39,12 @@ function Product(): JSX.Element {
 
         const selectedResturant = resturants.find(x => x._id === resturantId);
         setSelectedResturant(selectedResturant);
-
-        if (resturantId) {
-            getProducts(resturantId);
-            getReviews(resturantId);
-        }
-
     }, [dispatch, location, resturants]);
+
+
+    useEffect(() => {
+        dispatch(SetProduct(products));
+    }, [products]);
 
     const handleProductOpen = (productId: string) => {
         setSelectedProductId(productId);
@@ -66,36 +62,12 @@ function Product(): JSX.Element {
     };
 
     const handleReviewClose = (type: string) => {
-        if (type === "Product") {
-            getProducts(selectedResturant?._id ?? "");
-        }
-
-        if (type === "Resturant") {
-            getReviews(selectedResturant?._id ?? "");
+        if (type !== '') {
+            revalidator.revalidate();
         }
 
         setOpenReviewModal(false);
     };
-
-    const getProducts = (resturantId: string) => {
-        ProductFacade.getProductListApi(resturantId).then(response => {
-            const products = response.data?.SuccessResponse;
-            setProducts(products);
-            dispatch(SetProduct(products));
-
-            setProductLoading(false);
-        });
-    }
-
-    const getReviews = (resturantId: string) => {
-        ReviewFacade.getResturantReviewListApi(resturantId).then(response => {
-            const reviews = response.data?.SuccessResponse;
-
-            setReviews(reviews);
-            setReviewLoading(false);
-        });
-    }
-
 
     return (
         <Grid className="resturant-container" container justifyContent="space-between" direction="row">
@@ -165,7 +137,7 @@ function Product(): JSX.Element {
                         </Grid>
 
                         {
-                            reviewLoading ?
+                            navigation.state === 'loading' ?
                                 <Grid item xl={12} justifyContent='center' style={{ display: "flex", height: "100%" }}>
                                     <CircularProgress style={{ margin: 'auto' }} size={50} />
                                 </Grid>
@@ -203,7 +175,7 @@ function Product(): JSX.Element {
             <Grid item xs={12} sm={12} md={9} lg={9} xl={9} className="product-item-container">
                 <Grid container spacing={2} style={{ height: '100%' }}>
                     {
-                        productLoading ?
+                        navigation.state === 'loading' ?
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12} justifyContent='center' style={{ display: "flex", height: "100%" }}>
                                 <CircularProgress style={{ margin: 'auto' }} size={100} />
                             </Grid> :
